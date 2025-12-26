@@ -65,14 +65,14 @@ export const JLPT_REFERENCE_BANK = {
         category: "vocabulary",
         itemType: "orthography",
         question: "あの方はわたしの [[u]]せんせい[[/u]] です。",
-        choices: ["先生", "学生", "先週", "学生"],
+        choices: ["先生", "學生", "先週", "學生"],
         answerIndex: 0,
         explanation: {
           correct: "1. 先生",
           analysis: "考查常用詞彙「先生」的漢字寫法。",
           options: [
             { label: "1", whyWrongOrRight: "正確，「先生」對應「せんせい」。" },
-            { label: "2", whyWrongOrRight: "錯誤，「学生」對應「がくせい」。" },
+            { label: "2", whyWrongOrRight: "錯誤，「學生」對應「がくせい」。" },
             { label: "3", whyWrongOrRight: "錯誤，「先週」對應「せんしゅう」。" },
             { label: "4", whyWrongOrRight: "重複選項，錯誤。" }
           ]
@@ -131,7 +131,7 @@ export const JLPT_REFERENCE_BANK = {
             { label: "1", whyWrongOrRight: "錯誤，「閒暇」不等於休息日。" },
             { label: "2", whyWrongOrRight: "錯誤，「生病」不是休息的同義詞。" },
             { label: "3", whyWrongOrRight: "正確，休息日代表沒去學校。" },
-            { label: "4", whyWrongOrRight: "錯誤，工作很多與休息相反。" }
+            { label: "4", whyWrongOrRight: "錯誤，「工作很多」與休息相反。" }
           ]
         }
       },
@@ -168,10 +168,10 @@ export const JLPT_REFERENCE_BANK = {
           correct: "3. と",
           analysis: "考查助詞「と」表示共同行動的對象（和某人一起）。",
           options: [
-            { label: "1", whyWrongOrRight: "錯誤，「を」標示受格。" },
+            { label: "1", whyWrongOrRight: "錯誤，「を」標示受詞。" },
             { label: "2", whyWrongOrRight: "錯誤，「に」標示目的地或時間。" },
             { label: "3", whyWrongOrRight: "正確，「と」表示「和朋友」。" },
-            { label: "4", whyWrongOrRight: "錯誤，「が」標示主格。" }
+            { label: "4", whyWrongOrRight: "錯誤，「が」標示主詞。" }
           ]
         }
       },
@@ -353,13 +353,13 @@ export const JLPT_REFERENCE_BANK = {
         category: "vocabulary",
         itemType: "orthography",
         question: "将来の [[u]]けいかく[[/u]] を立てます。",
-        choices: ["計画", "計面", "結画", "形画"],
+        choices: ["計劃", "計面", "結畫", "形畫"],
         answerIndex: 0,
         explanation: {
-          correct: "1. 計画",
-          analysis: "考查「計畫」的正確寫法。注意「画」的結構。",
+          correct: "1. 計劃",
+          analysis: "考查「計劃」的正確寫法。注意「畫」的結構。",
           options: [
-            { label: "1", whyWrongOrRight: "正確，「計画」即「けいかく」。" },
+            { label: "1", whyWrongOrRight: "正確，「計劃」即「けいかく」。" },
             { label: "2", whyWrongOrRight: "錯誤，右側部件不對。" },
             { label: "3", whyWrongOrRight: "錯誤，左側漢字錯誤。" },
             { label: "4", whyWrongOrRight: "錯誤，形近字錯誤。" }
@@ -379,7 +379,7 @@ export const JLPT_REFERENCE_BANK = {
           analysis: "日文中，吃藥固定搭配動詞「飲む（のむ）」。",
           options: [
             { label: "1", whyWrongOrRight: "正確，藥物的搭配動詞是「のむ」。" },
-            { label: "2", whyWrongOrRight: "錯誤，不可直接用「たべる」。" },
+            { label: "2", whyWrongOrRight: "錯誤，不可直接用「たべて」。" },
             { label: "3", whyWrongOrRight: "錯誤，「かむ」是咀嚼。" },
             { label: "4", whyWrongOrRight: "錯誤，「ふく」是擦拭。" }
           ]
@@ -412,7 +412,7 @@ export const JLPT_REFERENCE_BANK = {
         question: "（準備）の使い方として最も適切なものを選びなさい。",
         choices: [
           "明日旅行に行くので、荷物の準備をします。",
-          "毎日準備を食べてから学校へ行きます。",
+          "毎日準備を食べてから學校へ行きます。",
           "この準備はとても美味しいです。",
           "彼は準備が速いので100メートル10秒で走れます。"
         ],
@@ -511,7 +511,7 @@ export const JLPT_REFERENCE_BANK = {
           ]
         },
         passage: {
-          text: "木村さん、お疲れ様です。明日の親睦会ですが、仕事が終わらないため、開始時間を19時から20時に変更させてください。急ですみませんが、よろしくお願いします。"
+          text: "木村さん、お疲れ様です。明日の親睦會ですが、仕事が終わらないため、開始時間を19時から20時に変更させてください。急ですみませんが、よろしくお願いします。"
         }
       },
       {
@@ -543,6 +543,35 @@ export const JLPT_REFERENCE_BANK = {
               ["各停", "9:30", "10:15"]
             ]
           }
+        }
+      },
+      {
+        id: "n4_r_mp_01",
+        level: "N4",
+        category: "reading",
+        itemType: "reading_mid_passage",
+        question: "佐藤さんはどうしてこのメールを送りましたか。",
+        choices: [
+          "新しい冷蔵庫を買ったことを知らせるため",
+          "冷蔵庫の中を掃除してほしいと頼むため",
+          "冷蔵庫にある自分の食べ物を食べてほしいと言うため",
+          "冷蔵庫の使い方について注意をするため"
+        ],
+        answerIndex: 3,
+        explanation: {
+          correct: "4. 冷蔵庫の使い方について注意をするため",
+          analysis: "這是一道主旨題。文章開頭提到「最近、冷蔵庫の使い方が良くないです」，接著列舉了「放太久過期」和「不寫名字」等問題，最後要求「ルールを守ってください」，因此目的是為了提醒大家注意使用規則。",
+          options: [
+            { label: "1", whyWrongOrRight: "錯誤。文中沒提到買新冰箱。" },
+            { label: "2", whyWrongOrRight: "錯誤。雖然提到冰箱髒，但重點是要求大家遵守規則，而非請求打掃。" },
+            { label: "3", whyWrongOrRight: "錯誤。文中提到的是抱怨別人的食物過期，而不是要分享自己的食物。" },
+            { label: "4", whyWrongOrRight: "正確。全文重點在於冰箱使用規則的宣導與提醒。" }
+          ],
+          extra: "這類題目通常在開頭或結尾會出現『～てください』或『～ないでください』來表達發信人的真正意圖。"
+        },
+        passage: {
+          id: "n4_reading_mid_01",
+          text: "寮のみなさんへ\n\n最近、みんなで使っている冷蔵庫の使い方が良くないです。昨日、冷蔵庫をチェックしたら、一ヶ月以上前の野菜や、いつ買ったかわからない古い肉がたくさん入っていました。また、名前が書いていない飲み物も多いです。誰のものかわからないと、掃除をする時に困ります。\n\n今日から、冷蔵庫に入れるものには必ず名前と日付を書いてください。一週間を過ぎたものは捨てます。みんなが気持ちよく使えるように、ルールを守ってください。\n\n管理人　佐藤"
         }
       }
     ]
