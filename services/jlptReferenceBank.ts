@@ -1,4 +1,3 @@
-
 export const JLPT_REFERENCE_BANK = {
   N5: {
     vocabulary: [
@@ -12,12 +11,12 @@ export const JLPT_REFERENCE_BANK = {
         answerIndex: 0,
         explanation: {
           correct: "1. やま",
-          analysis: "本題考查漢字「山」的讀音。在日檢 N5 中，這是最基礎的自然地理單字。",
+          analysis: "這裡要考的是漢字「山」的讀音。在 N5 的自然單字中，山（やま）與川（かわ）是最基本的。",
           options: [
-            { label: "1", whyWrongOrRight: "正確，「山」讀作「やま」。" },
-            { label: "2", whyWrongOrRight: "錯誤，「かわ」寫作「川」。" },
-            { label: "3", whyWrongOrRight: "錯誤，「うみ」寫作「海」。" },
-            { label: "4", whyWrongOrRight: "錯誤，「そら」寫作「空」。" }
+            { label: "1", whyWrongOrRight: "正確，「山」的讀音就是「やま」。" },
+            { label: "2", whyWrongOrRight: "這是「川」的讀音。" },
+            { label: "3", whyWrongOrRight: "這是「海」的讀音。" },
+            { label: "4", whyWrongOrRight: "這是「空」的讀音。" }
           ]
         }
       },
@@ -31,12 +30,12 @@ export const JLPT_REFERENCE_BANK = {
         answerIndex: 2,
         explanation: {
           correct: "3. した",
-          analysis: "考查方位詞「下」的讀音。對應情境是貓在桌子下方。",
+          analysis: "這題要注意方位詞「下」的唸法。貓咪在桌子下面，所以對應的是「した」。",
           options: [
-            { label: "1", whyWrongOrRight: "錯誤，「上（うえ）」表示上面。" },
-            { label: "2", whyWrongOrRight: "錯誤，「中（なか）」表示裡面。" },
-            { label: "3", whyWrongOrRight: "正確，「下」讀作「した」。" },
-            { label: "4", whyWrongOrRight: "錯誤，「外（そと）」表示外面。" }
+            { label: "1", whyWrongOrRight: "這是「上」，代表上面。" },
+            { label: "2", whyWrongOrRight: "這是「中」，代表裡面。" },
+            { label: "3", whyWrongOrRight: "正確，「下」唸作「した」。" },
+            { label: "4", whyWrongOrRight: "這是「外」，代表外面。" }
           ]
         }
       },
@@ -50,12 +49,12 @@ export const JLPT_REFERENCE_BANK = {
         answerIndex: 0,
         explanation: {
           correct: "1. 車",
-          analysis: "考查假名「くるま」對應的漢字。這是交通工具類的必備單字。",
+          analysis: "主要是考「くるま」這個唸法對應的漢字，這是交通工具類的基本單字。",
           options: [
-            { label: "1", whyWrongOrRight: "正確，「車」讀作「くるま」。" },
-            { label: "2", whyWrongOrRight: "錯誤，「東」讀作「ひがし」。" },
-            { label: "3", whyWrongOrRight: "錯誤，「電」通常讀作「でん」。" },
-            { label: "4", whyWrongOrRight: "錯誤，「校」通常讀作「こう」。" }
+            { label: "1", whyWrongOrRight: "正確，「車」的唸法就是「くるま」。" },
+            { label: "2", whyWrongOrRight: "這是「東（ひがし）」。" },
+            { label: "3", whyWrongOrRight: "這是「電」，通常用在「電車」等組合詞。" },
+            { label: "4", whyWrongOrRight: "這是「校」，通常用在「学校」等組合詞。" }
           ]
         }
       },
@@ -65,16 +64,16 @@ export const JLPT_REFERENCE_BANK = {
         category: "vocabulary",
         itemType: "orthography",
         question: "あの方はわたしの [[u]]せんせい[[/u]] です。",
-        choices: ["先生", "学生", "先週", "洗濯"],
+        choices: ["先生", "學生", "先週", "洗濯"],
         answerIndex: 0,
         explanation: {
           correct: "1. 先生",
-          analysis: "考查常用詞彙「先生」的正確漢字寫法，並區分形近或音近詞彙。",
+          analysis: "這題在考常用單字「先生（老師）」的正確漢字。要小心不要跟其他「先」開頭的字搞混。",
           options: [
-            { label: "1", whyWrongOrRight: "正確，「先生」對應「せんせい」。" },
-            { label: "2", whyWrongOrRight: "錯誤，「学生（がくせい）」指學生。" },
-            { label: "3", whyWrongOrRight: "錯誤，「先週（せんしゅう）」指上週。" },
-            { label: "4", whyWrongOrRight: "錯誤，「洗濯（せんたく）」指洗衣服。" }
+            { label: "1", whyWrongOrRight: "正確，「先生」對應的假名就是「せんせい」。" },
+            { label: "2", whyWrongOrRight: "這是「学生（がくせい）」。" },
+            { label: "3", whyWrongOrRight: "這是「先週（せんしゅう）」，代表上週。" },
+            { label: "4", whyWrongOrRight: "這是「洗濯（せんたく）」，代表洗衣服。" }
           ]
         }
       },
@@ -88,12 +87,12 @@ export const JLPT_REFERENCE_BANK = {
         answerIndex: 0,
         explanation: {
           correct: "1. つけて",
-          analysis: "根據前半句「很暗（くらい）」，後段要求打開電器設備最為自然。",
+          analysis: "因為前面說「很暗（くらい）」，所以後面接「請開燈（つけて）」最符合邏輯。",
           options: [
-            { label: "1", whyWrongOrRight: "正確，「つける」指打開電子設備（電燈）。" },
-            { label: "2", whyWrongOrRight: "錯誤，「けす」指關掉電源。" },
-            { label: "3", whyWrongOrRight: "錯誤，「開（あ）ける」指打開窗或門。" },
-            { label: "4", whyWrongOrRight: "錯誤，「閉（し）める」指關閉。" }
+            { label: "1", whyWrongOrRight: "正確，「つける」是用在打開電器（如電燈）開關。" },
+            { label: "2", whyWrongOrRight: "這是關掉電源的意思。" },
+            { label: "3", whyWrongOrRight: "這是打開窗戶或門的意思。" },
+            { label: "4", whyWrongOrRight: "這是關閉的意思。" }
           ]
         }
       },
@@ -107,12 +106,12 @@ export const JLPT_REFERENCE_BANK = {
         answerIndex: 1,
         explanation: {
           correct: "2. ごはん",
-          analysis: "「肚子餓了（おなかがすきました）」對應的動作是吃東西（たべる）。",
+          analysis: "肚子餓了（おなかがすきました）之後，當然就是要「吃飯（ごはん）」。",
           options: [
-            { label: "1", whyWrongOrRight: "錯誤，「茶」是用來喝的。" },
-            { label: "2", whyWrongOrRight: "正確，「ごはん」指飯或食物。" },
-            { label: "3", whyWrongOrRight: "錯誤，「水」是用來喝的。" },
-            { label: "4", whyWrongOrRight: "錯誤，「音樂」是用來聽的。" }
+            { label: "1", whyWrongOrRight: "茶是用來「喝」的。" },
+            { label: "2", whyWrongOrRight: "正確，「ごはん」代表飯或餐點。" },
+            { label: "3", whyWrongOrRight: "水是用來「喝」的。" },
+            { label: "4", whyWrongOrRight: "音樂是用來「聽」的。" }
           ]
         }
       },
@@ -126,12 +125,12 @@ export const JLPT_REFERENCE_BANK = {
         answerIndex: 2,
         explanation: {
           correct: "3. がっこうへ行きませんでした",
-          analysis: "「おやすみ（休息）」的意思是不用上班或上學。選項 3 最符合休息的語義。",
+          analysis: "「おやすみ」就是休息的意思，對應到「沒去學校」這個選項最合適。",
           options: [
-            { label: "1", whyWrongOrRight: "錯誤，「閒暇」不等於休息日。" },
-            { label: "2", whyWrongOrRight: "錯誤，「生病」不是休息的同義詞。" },
-            { label: "3", whyWrongOrRight: "正確，休息日代表沒去學校。" },
-            { label: "4", whyWrongOrRight: "錯誤，「工作很多」與休息相反。" }
+            { label: "1", whyWrongOrRight: "「很閒」跟「休息日」意思不太一樣。" },
+            { label: "2", whyWrongOrRight: "生病並不等於單純的休息。" },
+            { label: "3", whyWrongOrRight: "正確，休息日代表不用去學校。" },
+            { label: "4", whyWrongOrRight: "這是忙碌的意思。" }
           ]
         }
       },
@@ -145,12 +144,12 @@ export const JLPT_REFERENCE_BANK = {
         answerIndex: 2,
         explanation: {
           correct: "3. ぜん部ではありませんが、ほとんど",
-          analysis: "「だいたい」表示「大約、大體上」，對應「大部分都懂了」。",
+          analysis: "「だいたい」是大約、大體上的意思，對應到「雖然不是全部，但大部分都懂了」。",
           options: [
-            { label: "1", whyWrongOrRight: "錯誤，「完全不」是反義詞。" },
-            { label: "2", whyWrongOrRight: "錯誤，「一點點」程度不符。" },
-            { label: "3", whyWrongOrRight: "正確，指雖然不是全部但大部分。" },
-            { label: "4", whyWrongOrRight: "錯誤，「非常」是強調語氣。" }
+            { label: "1", whyWrongOrRight: "這是「完全不」的意思。" },
+            { label: "2", whyWrongOrRight: "這是「一點點」的意思。" },
+            { label: "3", whyWrongOrRight: "正確，「大部分」最接近「だいたい」。" },
+            { label: "4", whyWrongOrRight: "這是「非常」的意思。" }
           ]
         }
       }
@@ -166,12 +165,12 @@ export const JLPT_REFERENCE_BANK = {
         answerIndex: 2,
         explanation: {
           correct: "3. と",
-          analysis: "考查助詞「と」表示共同行動的對象（和某人一起）。",
+          analysis: "這裡是用助詞「と」來表示共同行動的對象，也就是「和朋友」一起去。",
           options: [
-            { label: "1", whyWrongOrRight: "錯誤，「を」標示受詞。" },
-            { label: "2", whyWrongOrRight: "錯誤，「に」標示目的地或時間。" },
-            { label: "3", whyWrongOrRight: "正確，「と」表示「和朋友」。" },
-            { label: "4", whyWrongOrRight: "錯誤，「が」標示主詞。" }
+            { label: "1", whyWrongOrRight: "這是標示受詞用的助詞。" },
+            { label: "2", whyWrongOrRight: "這是標示時間點或目的地用的。" },
+            { label: "3", whyWrongOrRight: "正確，「と」表示「和某人一起」。" },
+            { label: "4", whyWrongOrRight: "這是標示主詞用的助詞。" }
           ]
         }
       },
@@ -185,12 +184,12 @@ export const JLPT_REFERENCE_BANK = {
         answerIndex: 1,
         explanation: {
           correct: "2. でした",
-          analysis: "考查過去式判定。「きのう（昨天）」需搭配名詞的過去式「でした」。",
+          analysis: "句子開頭是「昨日（昨天）」，代表要描述過去的事，所以名詞後面要用過去式「でした」。",
           options: [
-            { label: "1", whyWrongOrRight: "錯誤，「だ」是現在肯定。" },
-            { label: "2", whyWrongOrRight: "正確，「でした」是過去肯定。" },
-            { label: "3", whyWrongOrRight: "錯誤，接續不自然。" },
-            { label: "4", whyWrongOrRight: "錯誤，形容動詞才用「な」。" }
+            { label: "1", whyWrongOrRight: "這是現在式的用法。" },
+            { label: "2", whyWrongOrRight: "正確，「あめでした」表示昨天是雨天。" },
+            { label: "3", whyWrongOrRight: "這裡不需要加「の」。" },
+            { label: "4", whyWrongOrRight: "通常接在形容動詞後面。" }
           ]
         }
       },
@@ -204,12 +203,12 @@ export const JLPT_REFERENCE_BANK = {
         answerIndex: 3,
         explanation: {
           correct: "4. 買った",
-          analysis: "正確順序為「昨日 新しい 買った 本」。星星位置是「買った」。",
+          analysis: "組起來的順序是「昨日(3) 新しい(2) 買った(4★) 本(1)」，意思是「讀了昨天買的新書」。",
           options: [
-            { label: "1", whyWrongOrRight: "本放在最後作為受詞。" },
-            { label: "2", whyWrongOrRight: "形容詞放在名詞前。" },
-            { label: "3", whyWrongOrRight: "時間副詞放在句首或修飾。" },
-            { label: "4", whyWrongOrRight: "正確順序：昨日(3) 新しい(2) 買った(4) 本(1)。" }
+            { label: "1", whyWrongOrRight: "「本」要放在受詞位置。" },
+            { label: "2", whyWrongOrRight: "形容詞要放在名詞前面。" },
+            { label: "3", whyWrongOrRight: "時間副詞放在句首或動詞前。" },
+            { label: "4", whyWrongOrRight: "正確順序中星星位置要填「買った」。" }
           ]
         }
       },
@@ -223,12 +222,12 @@ export const JLPT_REFERENCE_BANK = {
         answerIndex: 2,
         explanation: {
           correct: "3. まで",
-          analysis: "正確順序為「駅 まで 行く バス」。",
+          analysis: "正確順序是「駅(1) まで(3★) 行く(2) バス(4)」，指的是「去車站的公車」。",
           options: [
-            { label: "1", whyWrongOrRight: "目的地在最前。" },
-            { label: "2", whyWrongOrRight: "修飾語放在名詞前。" },
-            { label: "3", whyWrongOrRight: "正確順序：駅(1) まで(3) 行く(2) バス(4)。" },
-            { label: "4", whyWrongOrRight: "主語在最後。" }
+            { label: "1", whyWrongOrRight: "目的地放在最前面。" },
+            { label: "2", whyWrongOrRight: "動詞修飾後面的名詞。" },
+            { label: "3", whyWrongOrRight: "正確順序中星星位置應填「まで」。" },
+            { label: "4", whyWrongOrRight: "主語「バス」放在最後面。" }
           ]
         }
       }
@@ -244,12 +243,12 @@ export const JLPT_REFERENCE_BANK = {
         answerIndex: 1,
         explanation: {
           correct: "2. 4時に駅に行きます",
-          analysis: "根據短文提到「4時に駅で会いましょう」，田中應該在 4 點去車站。",
+          analysis: "短文裡明確提到「4時に駅で会いましょう」，所以田中先生會在這個時間出現在車站。",
           options: [
-            { label: "1", whyWrongOrRight: "錯誤，文中說是 4 點。" },
-            { label: "2", whyWrongOrRight: "正確，對應文中約定時間地點。" },
-            { label: "3", whyWrongOrRight: "錯誤，地點時間皆錯。" },
-            { label: "4", whyWrongOrRight: "錯誤，地點錯誤。" }
+            { label: "1", whyWrongOrRight: "時間不對，文中說 4 點。" },
+            { label: "2", whyWrongOrRight: "正確，對應文中約定的時間地點。" },
+            { label: "3", whyWrongOrRight: "時間跟地點都錯了。" },
+            { label: "4", whyWrongOrRight: "地點不對。" }
           ]
         },
         passage: {
@@ -266,12 +265,12 @@ export const JLPT_REFERENCE_BANK = {
         answerIndex: 0,
         explanation: {
           correct: "1. はい、休みです",
-          analysis: "查看表格中木曜日（週四）的欄位，午後標示為「／」代表休息。",
+          analysis: "對照表中的木曜日（週四）那一欄，午後標示為「／」，代表休息沒看診。",
           options: [
-            { label: "1", whyWrongOrRight: "正確，符合時刻表標示。" },
-            { label: "2", whyWrongOrRight: "錯誤，標示顯示休息。" },
-            { label: "3", whyWrongOrRight: "錯誤，朝（早晨）有時間。" },
-            { label: "4", whyWrongOrRight: "錯誤，表格無此資訊。" }
+            { label: "1", whyWrongOrRight: "正確，符合表格中的標示。" },
+            { label: "2", whyWrongOrRight: "不對，表格顯示是休息。" },
+            { label: "3", whyWrongOrRight: "早上（上午）是有看診的。" },
+            { label: "4", whyWrongOrRight: "表格裡沒有夜診的資訊。" }
           ]
         },
         passage: {
@@ -300,12 +299,12 @@ export const JLPT_REFERENCE_BANK = {
         answerIndex: 1,
         explanation: {
           correct: "2. そうだん",
-          analysis: "「相談」是 N4 核心單字，讀音為「そうだん」。注意長音與濁音。",
+          analysis: "「相談（商量）」是 N4 的重點單字。唸的時候要特別注意長音和濁音的部分喔。",
           options: [
-            { label: "1", whyWrongOrRight: "錯誤，首字不帶長音。" },
-            { label: "2", whyWrongOrRight: "正確，「相談」讀作「そうだん」。" },
-            { label: "3", whyWrongOrRight: "錯誤，「心配（しんぱい）」是擔心。" },
-            { label: "4", whyWrongOrRight: "錯誤，「尊敬（そんけい）」是尊敬。" }
+            { label: "1", whyWrongOrRight: "前面的音唸錯了。" },
+            { label: "2", whyWrongOrRight: "正確，「相談」的讀法就是「そうだん」。" },
+            { label: "3", whyWrongOrRight: "這是「心配」的唸法。" },
+            { label: "4", whyWrongOrRight: "這是「尊敬」的唸法。" }
           ]
         }
       },
@@ -319,12 +318,12 @@ export const JLPT_REFERENCE_BANK = {
         answerIndex: 0,
         explanation: {
           correct: "1. しゅうかん",
-          analysis: "「習慣」讀作「しゅうかん」。",
+          analysis: "這題要注意「習慣」的讀音是「しゅうかん」，長音的部分要唸清楚。",
           options: [
             { label: "1", whyWrongOrRight: "正確，「習慣」讀作「しゅうかん」。" },
-            { label: "2", whyWrongOrRight: "錯誤，濁音錯誤。" },
-            { label: "3", whyWrongOrRight: "錯誤，「規則（きそく）」字義不同。" },
-            { label: "4", whyWrongOrRight: "錯誤，「經驗（けいけん）」字義不同。" }
+            { label: "2", whyWrongOrRight: "濁音的位置錯了。" },
+            { label: "3", whyWrongOrRight: "這是「規則」的意思。" },
+            { label: "4", whyWrongOrRight: "這是「經驗」的意思。" }
           ]
         }
       },
@@ -338,12 +337,12 @@ export const JLPT_REFERENCE_BANK = {
         answerIndex: 0,
         explanation: {
           correct: "1. 危ない",
-          analysis: "考查「危險」的漢字。N4 常考形容詞漢字。",
+          analysis: "這裡要找出「危險（あぶない）」對應的漢字。N4 很常考這類形容詞的寫法。",
           options: [
-            { label: "1", whyWrongOrRight: "正確，「危ない」即「あぶない」。" },
-            { label: "2", whyWrongOrRight: "錯誤，「恐（こわ）い」是可怕。" },
-            { label: "3", whyWrongOrRight: "錯誤，「暗（くら）い」是黑暗。" },
-            { label: "4", whyWrongOrRight: "錯誤，「苦（にが）い」是苦澀。" }
+            { label: "1", whyWrongOrRight: "正確，「危ない」就是「あぶない」。" },
+            { label: "2", whyWrongOrRight: "這是「恐（こわ）い」，代表可怕。" },
+            { label: "3", whyWrongOrRight: "這是「暗（くら）い」，代表黑暗。" },
+            { label: "4", whyWrongOrRight: "這是「苦（にが）い」，代表苦澀。" }
           ]
         }
       },
@@ -357,12 +356,12 @@ export const JLPT_REFERENCE_BANK = {
         answerIndex: 0,
         explanation: {
           correct: "1. 計画",
-          analysis: "考查「計畫（けいかく）」的正確日文漢字寫法。",
+          analysis: "這裡要注意「計畫」的日文漢字正確寫法，右邊的部分跟中文稍有不同。",
           options: [
-            { label: "1", whyWrongOrRight: "正確，「計画」對應「けいかく」。" },
-            { label: "2", whyWrongOrRight: "錯誤，漢字字形錯誤。" },
-            { label: "3", whyWrongOrRight: "錯誤，使用了錯誤的組合。" },
-            { label: "4", whyWrongOrRight: "錯誤，音近但形錯。" }
+            { label: "1", whyWrongOrRight: "正確，「計画」就是「けいかく」。" },
+            { label: "2", whyWrongOrRight: "字形寫錯了。" },
+            { label: "3", whyWrongOrRight: "左邊的漢字用錯了。" },
+            { label: "4", whyWrongOrRight: "唸法雖然有點像，但漢字是錯的。" }
           ]
         }
       },
@@ -376,12 +375,12 @@ export const JLPT_REFERENCE_BANK = {
         answerIndex: 0,
         explanation: {
           correct: "1. のんで",
-          analysis: "日文中，吃藥固定搭配動詞「飲む（のむ）」。",
+          analysis: "在日文中，「吃藥」習慣上要用動詞「飲む（喝）」，這點跟中文用「吃」不太一樣，要特別注意。",
           options: [
-            { label: "1", whyWrongOrRight: "正確，藥物的搭配動詞是「のむ」。" },
-            { label: "2", whyWrongOrRight: "錯誤，不可直接用「たべる」。" },
-            { label: "3", whyWrongOrRight: "錯誤，「かむ」是咀嚼。" },
-            { label: "4", whyWrongOrRight: "錯誤，「ふく」是擦拭。" }
+            { label: "1", whyWrongOrRight: "正確，藥物的搭配動詞一定要用「のむ」。" },
+            { label: "2", whyWrongOrRight: "日文不會說「藥物をたべる」。" },
+            { label: "3", whyWrongOrRight: "這是「嚼」的意思。" },
+            { label: "4", whyWrongOrRight: "這是「擦」的意思。" }
           ]
         }
       },
@@ -395,12 +394,12 @@ export const JLPT_REFERENCE_BANK = {
         answerIndex: 2,
         explanation: {
           correct: "3. ざんねんに思いました",
-          analysis: "「がっかり」表示失望、沮喪。最接近的語義是感到遺憾或可惜。",
+          analysis: "「がっかり」形容的是失望、沮喪的心情。選項中「感到遺憾、可惜」的意思最接近。",
           options: [
-            { label: "1", whyWrongOrRight: "錯誤，「驚訝」不代表失望。" },
-            { label: "2", whyWrongOrRight: "錯誤，「安心」是反義。" },
-            { label: "3", whyWrongOrRight: "正確，失望即是感到遺憾。" },
-            { label: "4", whyWrongOrRight: "錯誤，「喜悅」是反義。" }
+            { label: "1", whyWrongOrRight: "這是驚訝的意思。" },
+            { label: "2", whyWrongOrRight: "這是放心的意思。" },
+            { label: "3", whyWrongOrRight: "正確，感到遺憾與失望語意最契合。" },
+            { label: "4", whyWrongOrRight: "這是高興的意思。" }
           ]
         }
       },
@@ -419,12 +418,12 @@ export const JLPT_REFERENCE_BANK = {
         answerIndex: 0,
         explanation: {
           correct: "1. 明日旅行に行くので、荷物の準備をします。",
-          analysis: "考查「準備」在具體場景中的應用。指為了特定目的預先做出的動作。",
+          analysis: "這題要找出「準備」最自然的用法。它是指為了接下來要做的事先做好預備動作。",
           options: [
-            { label: "1", whyWrongOrRight: "正確，旅行前的整理屬於準備。" },
-            { label: "2", whyWrongOrRight: "錯誤，餐點應用「食事」。" },
-            { label: "3", whyWrongOrRight: "錯誤，不符合語境。" },
-            { label: "4", whyWrongOrRight: "錯誤，跑步快應用「足」或「スピード」。" }
+            { label: "1", whyWrongOrRight: "正確，旅行前整理行李就是一種準備。" },
+            { label: "2", whyWrongOrRight: "這裡應該用「食事（吃飯）」。" },
+            { label: "3", whyWrongOrRight: "準備不能用「好吃」來形容。" },
+            { label: "4", whyWrongOrRight: "這應該是指跑步的速度（スピード）。" }
           ]
         }
       }
@@ -435,17 +434,17 @@ export const JLPT_REFERENCE_BANK = {
         level: "N4",
         category: "grammar",
         itemType: "selecting_grammar_form",
-        question: "日本語が上手に話せる （　） 毎日練習しています。",
+        question: "日本語が上手に話せる （　） 每天練習しています。",
         choices: ["ように", "ために", "ことに", "までに"],
         answerIndex: 0,
         explanation: {
           correct: "1. ように",
-          analysis: "考查「ように」表示目的。搭配非意志動詞（可能動詞），表示希望達到某種狀態。",
+          analysis: "這裡用「ように」來表示目的。前面接可能動詞，代表希望能達成「會說日文」的狀態。",
           options: [
-            { label: "1", whyWrongOrRight: "正確，搭配可能動詞表目的。" },
-            { label: "2", whyWrongOrRight: "錯誤，「ために」通常搭配意志動詞。" },
-            { label: "3", whyWrongOrRight: "錯誤，語法不通。" },
-            { label: "4", whyWrongOrRight: "錯誤，表示期限。" }
+            { label: "1", whyWrongOrRight: "正確，前面接可能動詞時用來表示努力的目標。" },
+            { label: "2", whyWrongOrRight: "這通常接在意志動詞後表示目的。" },
+            { label: "3", whyWrongOrRight: "文法上不通順。" },
+            { label: "4", whyWrongOrRight: "這是表示期限的意思。" }
           ]
         }
       },
@@ -459,12 +458,12 @@ export const JLPT_REFERENCE_BANK = {
         answerIndex: 2,
         explanation: {
           correct: "3. 時計を",
-          analysis: "正確順序為「私は 母に(1) 誕生日に(2) 時計を(3★) 買っ(4)て くれました」。考查授予關係句型。",
+          analysis: "這是在考授予關係（買給我）的句型。排起來的意思是「我媽在我生日時買了手錶給我」。",
           options: [
-            { label: "1", whyWrongOrRight: "錯誤，對象助詞需緊跟對象。" },
-            { label: "2", whyWrongOrRight: "錯誤，時間狀語位置。" },
-            { label: "3", whyWrongOrRight: "正確，星星位置應填入受詞「時計を」。" },
-            { label: "4", whyWrongOrRight: "錯誤，動詞連用形接續。" }
+            { label: "1", whyWrongOrRight: "標示給予對象的助詞。" },
+            { label: "2", whyWrongOrRight: "標示時間點。" },
+            { label: "3", whyWrongOrRight: "正確，星星位置剛好要填受詞「時計を」。" },
+            { label: "4", whyWrongOrRight: "動詞的て形用來連結後面的補助動詞。" }
           ]
         }
       },
@@ -478,16 +477,13 @@ export const JLPT_REFERENCE_BANK = {
         answerIndex: 1,
         explanation: {
           correct: "2. しかし",
-          analysis: "根據文章前後文轉折語氣判斷。前文講優點，後文提缺點，故選「然而（しかし）」。",
+          analysis: "要根據前後文的關係來選。前面說網購很方便，後面提缺點，中間就要用轉折詞「但是（しかし）」。",
           options: [
-            { label: "1", whyWrongOrRight: "錯誤，表示接續動作。" },
-            { label: "2", whyWrongOrRight: "正確，表示轉折。" },
-            { label: "3", whyWrongOrRight: "錯誤，表示因果。" },
-            { label: "4", whyWrongOrRight: "錯誤，表示舉例。" }
+            { label: "1", whyWrongOrRight: "這是「在那之後」的意思。" },
+            { label: "2", whyWrongOrRight: "正確，用來表示前後語意的轉折。" },
+            { label: "3", whyWrongOrRight: "這是「所以」的意思。" },
+            { label: "4", whyWrongOrRight: "這是「例如」的意思。" }
           ]
-        },
-        passage: {
-          text: "最近はインターネットで買い物をする人が増えています。とても便利です。（ 1 ）、直接商品を見ることができないという問題もあります。"
         }
       }
     ],
@@ -502,16 +498,16 @@ export const JLPT_REFERENCE_BANK = {
         answerIndex: 1,
         explanation: {
           correct: "2. 時間を変更したいこと",
-          analysis: "郵件主旨在於「19時から20時に変更させてください」，即修改時間。",
+          analysis: "信的主旨在於後面那句「希望能把開始時間從 19 點改到 20 點」。",
           options: [
-            { label: "1", whyWrongOrRight: "錯誤，那是前提不是重點。" },
-            { label: "2", whyWrongOrRight: "正確，文中明確提出請求。" },
-            { label: "3", whyWrongOrRight: "錯誤，地點已告知。" },
-            { label: "4", whyWrongOrRight: "錯誤，文中未提到。" }
+            { label: "1", whyWrongOrRight: "這只是信件的前提，不是發信主旨。" },
+            { label: "2", whyWrongOrRight: "正確，發信人明確提出了修改時間的請求。" },
+            { label: "3", whyWrongOrRight: "地點文中已經交代過了。" },
+            { label: "4", whyWrongOrRight: "文中完全沒有提到這件事。" }
           ]
         },
         passage: {
-          text: "木村さん、お疲れ様です。明日の親睦会ですが、仕事が終わらないため、開始時間を19時から20時に変更させてください。急ですみませんが、よろしくお願いします。"
+          text: "木村さん、お疲れ様です。明日の親睦會ですが、仕事が終わらないため、開始時間を19時から20時に変更させてください。急ですみませんが、よろしくお願いします。"
         }
       },
       {
@@ -524,12 +520,12 @@ export const JLPT_REFERENCE_BANK = {
         answerIndex: 0,
         explanation: {
           correct: "1. 急行 8:15",
-          analysis: "從時刻表對比，8:15 的急行車最早到達。",
+          analysis: "仔細對照表中的到站時間，8:15 出發的那班急行電車是最早到達新宿的。",
           options: [
-            { label: "1", whyWrongOrRight: "正確，時間最前。" },
-            { label: "2", whyWrongOrRight: "錯誤，比 8:15 晚。" },
-            { label: "3", whyWrongOrRight: "錯誤，屬於下一班次。" },
-            { label: "4", whyWrongOrRight: "錯誤，最晚。" }
+            { label: "1", whyWrongOrRight: "正確，它的到站時間最早。" },
+            { label: "2", whyWrongOrRight: "雖然出發只晚 5 分鐘，但到站時間晚很多。" },
+            { label: "3", whyWrongOrRight: "這是下一時段的車次了。" },
+            { label: "4", whyWrongOrRight: "這是表格中最晚到的班次。" }
           ]
         },
         passage: {
@@ -560,14 +556,14 @@ export const JLPT_REFERENCE_BANK = {
         answerIndex: 3,
         explanation: {
           correct: "4. 冷蔵庫の使い方について注意をするため",
-          analysis: "這是一道主旨題。文章開頭提到「最近、冷蔵庫の使い方が良くないです」，接著列舉了「放太久過期」和「不寫名字」等問題，最後要求「ルールを守ってください」，因此目的是為了提醒大家注意使用規則。",
+          analysis: "這篇公告主要是管理人要提醒大家遵守冰箱的使用規則，因為最近冰箱裡的東西太亂了。",
           options: [
-            { label: "1", whyWrongOrRight: "錯誤。文中沒提到買新冰箱。" },
-            { label: "2", whyWrongOrRight: "錯誤。雖然提到冰箱髒，但重點是要求大家遵守規則，而非請求打掃。" },
-            { label: "3", whyWrongOrRight: "錯誤。文中提到的是抱怨別人的食物過期，而不是要分享自己的食物。" },
-            { label: "4", whyWrongOrRight: "正確。全文重點在於冰箱使用規則的宣導與提醒。" }
+            { label: "1", whyWrongOrRight: "不對，文中沒說有新冰箱。" },
+            { label: "2", whyWrongOrRight: "雖然有抱怨，但重點是要大家遵守規則，不是叫人去打掃。" },
+            { label: "3", whyWrongOrRight: "文中是在抱怨別人的過期食物，不是要分享自己的東西。" },
+            { label: "4", whyWrongOrRight: "正確，結尾明確要求大家要遵守規則（ルールを守ってください）。" }
           ],
-          extra: "這類題目通常在開頭或結尾會出現『～てください』或『～ないでください』來表達發信人的真正意圖。"
+          extra: "這類公告題通常會在結尾出現祈使句，來傳達發文者的真正意圖。"
         },
         passage: {
           id: "n4_reading_mid_01",
