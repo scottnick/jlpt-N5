@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { localDb } from '../../db/localDb';
 import { NotebookEntry } from '../../types';
 
-const NotebookList: React.FC = () => {
+const NotebookList: React.FC<{ onBack: () => void }> = ({ onBack }) => {
   const [entries, setEntries] = useState(localDb.getNotebook());
   const [deleteMode, setDeleteMode] = useState(false);
   const [selectedEntry, setSelectedEntry] = useState<NotebookEntry | null>(null);
@@ -21,10 +21,16 @@ const NotebookList: React.FC = () => {
 
   return (
     <div className="p-6">
+      <div className="flex items-center gap-2 mb-4">
+          <button onClick={onBack} className="p-2 -ml-2 text-slate-400">
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7"></path></svg>
+          </button>
+      </div>
+
       <div className="flex justify-between items-center mb-8">
         <div>
             <h2 className="text-2xl font-bold text-slate-800">單字筆記本</h2>
-            <p className="text-slate-500">收藏你在測驗中遇到的單字</p>
+            <p className="text-slate-500 text-sm">收藏你在測驗中標記的生字</p>
         </div>
         <button 
             onClick={() => setDeleteMode(!deleteMode)}

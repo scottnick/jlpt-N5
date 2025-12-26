@@ -46,11 +46,27 @@ export interface QuizSession {
   questions: Question[];
 }
 
+export interface LevelStats {
+  doneCount: number;
+  correctCount: number;
+  totalTimeSeconds: number;
+}
+
 export interface UserStats {
   totalQuestions: number;
   totalCorrect: number;
   totalTimeSeconds: number;
-  categoryStats: Record<string, { count: number; correct: number; time: number }>;
+  // Stats keyed by ExamLevel
+  levelStats: Record<string, LevelStats>;
+}
+
+export interface WrongQuestion {
+  id: string;
+  level: ExamLevel;
+  category: Category;
+  question: Question;
+  userAnswer: string;
+  timestamp: string;
 }
 
 export interface NotebookEntry {
