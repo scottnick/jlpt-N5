@@ -44,7 +44,7 @@ const WrongBook: React.FC<{ onBack: () => void }> = ({ onBack }) => {
                   </div>
                   <div className="flex-1 overflow-hidden">
                       <p className="japanese text-sm font-bold text-slate-700 truncate">{item.question.stem}</p>
-                      <p className="text-[10px] text-slate-400 mt-1 uppercase tracking-wider">{item.category} • {new Date(item.timestamp).toLocaleDateString()}</p>
+                      <p className="text-[10px] text-slate-400 mt-1 uppercase tracking-wider">{item.question.itemType || item.category} • {new Date(item.timestamp).toLocaleDateString()}</p>
                   </div>
               </button>
           ))}
@@ -71,14 +71,16 @@ const WrongBook: React.FC<{ onBack: () => void }> = ({ onBack }) => {
                   </div>
                   <div className="p-6 overflow-y-auto flex-1">
                       <div className="space-y-3 mb-8">
-                          {selected.question.choices.map(c => {
-                              const isCorrect = c.label === selected.question.answer.label;
-                              const isUser = c.label === selected.userAnswer;
+                          {selected.question.choices.map((c, idx) => {
+                              const label = (idx + 1).toString();
+                              const text = typeof c === 'string' ? c : c.text;
+                              const isCorrect = idx === selected.question.answerIndex;
+                              const isUser = label === selected.userAnswer;
                               return (
-                                  <div key={c.label} className={`p-3 rounded-xl border flex items-center justify-between ${isCorrect ? 'border-emerald-200 bg-emerald-50' : isUser ? 'border-rose-200 bg-rose-50' : 'border-slate-50 bg-slate-50'}`}>
+                                  <div key={label} className={`p-3 rounded-xl border flex items-center justify-between ${isCorrect ? 'border-emerald-200 bg-emerald-50' : isUser ? 'border-rose-200 bg-rose-50' : 'border-slate-50 bg-slate-50'}`}>
                                       <div className="flex items-center gap-3">
-                                          <span className={`w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-bold ${isCorrect ? 'bg-emerald-500 text-white' : isUser ? 'bg-rose-500 text-white' : 'bg-slate-200 text-slate-400'}`}>{c.label}</span>
-                                          <span className="japanese text-sm text-slate-700">{c.text}</span>
+                                          <span className={`w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-bold ${isCorrect ? 'bg-emerald-500 text-white' : isUser ? 'bg-rose-500 text-white' : 'bg-slate-200 text-slate-400'}`}>{label}</span>
+                                          <span className="japanese text-sm text-slate-700">{text}</span>
                                       </div>
                                       {isCorrect && <svg className="w-5 h-5 text-emerald-500" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd"></path></svg>}
                                   </div>
@@ -86,10 +88,22 @@ const WrongBook: React.FC<{ onBack: () => void }> = ({ onBack }) => {
                           })}
                       </div>
 
-                      <div className="bg-indigo-50 p-5 rounded-3xl">
-                          <h4 className="text-indigo-600 font-black text-xs uppercase tracking-widest mb-2">💡 解析回顧</h4>
-                          <p className="text-slate-600 text-sm italic mb-4 border-l-2 border-indigo-200 pl-3 leading-relaxed">{selected.question.explanation.stemTranslationZh}</p>
-                          <p className="text-slate-700 text-sm leading-relaxed">{selected.question.explanation.whyCorrect}</p>
+                      <div className="bg-indigo-50 p-5 rounded-3xl text-sm">
+                          <h4 className="text-indigo-600 font-black text-xs uppercase tracking-widest mb-3 flex items-center gap-2">💡 詳解詳情</h4>
+                          <div className="space-y-4">
+                              <div>
+                                <div className="font-bold text-emerald-600 mb-1">【正解】 {selected.question.explanation.correct}</div>
+                                <p className="text-slate-700 leading-relaxed">{selected.question.explanation.analysis}</p>
+                              </div>
+                              <div className="space-y-1 border-t border-indigo-100 pt-3">
+                                {selected.question.explanation.options.map(opt => (
+                                    <div key={opt.label} className="text-slate-600 text-xs">
+                                        <span className="font-bold mr-1">{opt.label}.</span>
+                                        {opt.whyWrongOrRight}
+                                    </div>
+                                ))}
+                              </div>
+                          </div>
                       </div>
                   </div>
               </div>

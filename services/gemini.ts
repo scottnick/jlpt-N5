@@ -1,132 +1,104 @@
 
 import { GoogleGenAI, Type } from "@google/genai";
-import { ExamLevel, Category, QuizSession } from "../types";
+import { ExamLevel, Category, QuizSession, Question } from "../types";
+import { JLPT_REFERENCE_BANK } from "./jlptReferenceBank";
 
-/**
- * JLPT Item Type Specification Reference
- * Based on official test standards for N4/N5
- */
-const JLPT_ITEM_TYPE_SPEC = `
-JLPT ITEM TYPE STANDARDS:
-1. Vocabulary (文字語彙):
-   - Kanji Reading (漢字読み): Reading kanji in sentences.
-   - Orthography (表記): Choosing correct kanji or katakana for hiragana.
-   - Contextual Usage (文脈規定): Choosing words based on meaning in context.
-   - Paraphrasing (言い換え類義): Finding words with similar meanings.
-   - Usage (用法): Identifying the correct way to use a specific word.
-2. Grammar (文法):
-   - Grammar Forms (文法形式の判断): Selecting the correct functional word or phrase.
-   - Sentence Composition (文の組み立て): Ordering parts to form a coherent sentence (The "Star" question).
-   - Text Grammar (文章の文法): Selecting appropriate grammar within a passage.
-3. Reading (読解):
-   - Short/Medium Passages (内容理解): Extracting key information or author's intent.
-   - Information Retrieval (情報検索): Finding specific facts (e.g., from a poster).
-
-DIFFICULTY RULES:
-- N5: Basic expressions, limited kanji (approx 100), high-frequency daily words.
-- N4: Daily topics, slightly more complex grammar (passive, causative), approx 300 kanji.
-`;
-
-export const generateQuiz = async (level: ExamLevel, category: Category, count: number): Promise<QuizSession> => {
+export const generateQuiz = async (
+  level: ExamLevel, 
+  category: Category, 
+  count: number,
+  selectedItemTypes: string[]
+): Promise<QuizSession> => {
   const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
   
-  const prompt = `
-  ${JLPT_ITEM_TYPE_SPEC}
+  // Distribution Logic
+  const k = selectedItemTypes.length;
+  const base = Math.floor(count / k);
+  const remainder = count % k;
   
-  TASK: Generate a ${level} level Japanese ${category} quiz with ${count} questions. 
-  Follow the JLPT standards above strictly. 
-  Ensure the difficulty is accurate for ${level}. 
-  Provide natural Japanese sentences and professional explanations in Traditional Chinese (zh-TW).
+  const distribution: Record<string, number> = {};
+  selectedItemTypes.forEach(t => distribution[t] = base);
   
-  Subtype diversity is required. 
-  For ${category} specifically, use appropriate JLPT subtypes defined in the spec.
-  `;
+  // Distribute remainder randomly
+  const shuffled = [...selectedItemTypes].sort(() => Math.random() - 0.5);
+  for (let i = 0; i < remainder; i++) {
+    distribution[shuffled[i]]++;
+  }
 
-  const responseSchema = {
-    type: Type.OBJECT,
-    properties: {
-      version: { type: Type.STRING },
-      examLevel: { type: Type.STRING },
-      category: { type: Type.STRING },
-      subtypesIncluded: { type: Type.ARRAY, items: { type: Type.STRING } },
-      generatedAt: { type: Type.STRING },
-      questions: {
-        type: Type.ARRAY,
-        items: {
-          type: Type.OBJECT,
-          properties: {
-            id: { type: Type.STRING },
-            subtype: { type: Type.STRING },
-            stem: { type: Type.STRING },
-            instruction: { type: Type.STRING },
-            choices: {
-              type: Type.ARRAY,
-              items: {
-                type: Type.OBJECT,
-                properties: {
-                  label: { type: Type.STRING },
-                  text: { type: Type.STRING },
-                  word: { type: Type.STRING },
-                  reading: { type: Type.STRING },
-                  pos: { type: Type.STRING },
-                  verbType: { type: Type.STRING },
-                  meaningZh: { type: Type.STRING }
-                },
-                required: ["label", "text"]
-              }
-            },
-            answer: {
-              type: Type.OBJECT,
-              properties: {
-                label: { type: Type.STRING }
-              },
-              required: ["label"]
-            },
-            explanation: {
-              type: Type.OBJECT,
-              properties: {
-                stemTranslationZh: { type: Type.STRING },
-                choiceNotes: {
-                  type: Type.ARRAY,
-                  items: {
-                    type: Type.OBJECT,
-                    properties: {
-                      label: { type: Type.STRING },
-                      word: { type: Type.STRING },
-                      pos: { type: Type.STRING },
-                      verbType: { type: Type.STRING },
-                      meaningZh: { type: Type.STRING }
-                    }
-                  }
-                },
-                whyCorrect: { type: Type.STRING },
-                whyOthersWrong: { type: Type.STRING }
-              }
-            }
-          },
-          required: ["id", "subtype", "stem", "instruction", "choices", "answer", "explanation"]
+  const distributionStr = Object.entries(distribution)
+    .map(([type, n]) => `- ${type}: ${n}題`)
+    .join("\n");
+
+  const prompt = `
+  TASK: Generate a ${level} level Japanese ${category} quiz.
+  
+  DISTRIBUTION PLAN (STRICTLY FOLLOW):
+  ${distributionStr}
+
+  REFERENCE SAMPLES (FEW-SHOT):
+  ${JSON.stringify(level === 'N4' ? JLPT_REFERENCE_BANK.N4 : JLPT_REFERENCE_BANK.N5)}
+
+  OUTPUT FORMAT REQUIREMENTS:
+  1. Return ONLY valid JSON.
+  2. Choices MUST be exactly 4 strings.
+  3. answerIndex MUST be 0, 1, 2, or 3.
+  4. explanations MUST follow the structure: { correct: "label. text", analysis: "...", options: [...], extra: "..." }
+  5. Use Traditional Chinese (zh-TW) for all explanations.
+  6. Ensure difficulty is accurate for ${level}.
+
+  JSON SCHEMA:
+  {
+    "examLevel": "${level}",
+    "category": "${category}",
+    "questions": [
+      {
+        "id": "uuid",
+        "level": "${level}",
+        "category": "${category}",
+        "itemType": "string",
+        "stem": "string (the sentence with parenthesized kanji or blank ___ )",
+        "instruction": "string",
+        "choices": ["string", "string", "string", "string"],
+        "answerIndex": number,
+        "explanation": {
+          "correct": "number. correct_text",
+          "analysis": "detailed analysis (2-3 sentences)",
+          "options": [
+            {"label": "1", "whyWrongOrRight": "string"},
+            {"label": "2", "whyWrongOrRight": "string"},
+            {"label": "3", "whyWrongOrRight": "string"},
+            {"label": "4", "whyWrongOrRight": "string"}
+          ],
+          "extra": "example sentence or mnemonic"
         }
       }
-    },
-    required: ["version", "examLevel", "category", "questions"]
-  };
+    ]
+  }
+  `;
 
   try {
     const response = await ai.models.generateContent({
       model: 'gemini-3-flash-preview',
       contents: prompt,
       config: {
-        responseMimeType: "application/json",
-        responseSchema: responseSchema
+        responseMimeType: "application/json"
       }
     });
 
     const jsonStr = response.text;
     if (!jsonStr) throw new Error("Empty response");
     
-    return JSON.parse(jsonStr.trim()) as QuizSession;
+    const parsed = JSON.parse(jsonStr.trim());
+    return {
+      version: "2.0",
+      examLevel: level,
+      category: category,
+      subtypesIncluded: selectedItemTypes,
+      generatedAt: new Date().toISOString(),
+      questions: parsed.questions
+    } as QuizSession;
   } catch (error) {
     console.error("Gemini API Error:", error);
-    throw new Error("無法生成題目，請檢查網路連線或稍後再試。");
+    throw new Error("無法生成題目，請檢查網路或稍後再試。");
   }
 };

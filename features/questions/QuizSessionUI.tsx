@@ -48,7 +48,6 @@ const QuizSessionUI: React.FC<QuizSessionUIProps> = ({ session, onComplete, onCa
 
   return (
     <div className="flex flex-col h-full bg-slate-50">
-      {/* Header */}
       <header className="p-4 flex items-center justify-between bg-white border-b border-slate-200">
         <button onClick={() => setShowConfirmCancel(true)} className="p-2 text-slate-500">
           <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path></svg>
@@ -61,7 +60,6 @@ const QuizSessionUI: React.FC<QuizSessionUIProps> = ({ session, onComplete, onCa
         </div>
       </header>
 
-      {/* Progress Bar */}
       <div className="w-full h-1 bg-slate-200">
         <div 
           className="h-full bg-indigo-500 transition-all duration-300" 
@@ -69,11 +67,10 @@ const QuizSessionUI: React.FC<QuizSessionUIProps> = ({ session, onComplete, onCa
         ></div>
       </div>
 
-      {/* Question Content */}
       <main className="flex-1 overflow-y-auto p-6 flex flex-col">
         <div className="mb-2">
             <span className="text-xs font-bold px-2 py-0.5 bg-indigo-50 text-indigo-600 rounded-md border border-indigo-100">
-                {currentQuestion.subtype}
+                {currentQuestion.itemType || currentQuestion.subtype}
             </span>
         </div>
         <div className="text-slate-500 text-sm mb-4">{currentQuestion.instruction}</div>
@@ -82,28 +79,31 @@ const QuizSessionUI: React.FC<QuizSessionUIProps> = ({ session, onComplete, onCa
         </div>
 
         <div className="space-y-4">
-          {currentQuestion.choices.map(choice => (
-            <button
-              key={choice.label}
-              onClick={() => handleSelect(choice.label)}
-              className={`w-full p-5 rounded-2xl text-left border-2 transition-all flex items-center gap-4 ${
-                answers[currentQuestion.id] === choice.label 
-                ? 'border-indigo-600 bg-indigo-50' 
-                : 'border-white bg-white shadow-sm'
-              }`}
-            >
-              <div className={`w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm ${
-                answers[currentQuestion.id] === choice.label ? 'bg-indigo-600 text-white' : 'bg-slate-100 text-slate-500'
-              }`}>
-                {choice.label}
-              </div>
-              <span className="text-lg text-slate-700 japanese">{choice.text}</span>
-            </button>
-          ))}
+          {currentQuestion.choices.map((choice, idx) => {
+            const label = (idx + 1).toString();
+            const choiceText = typeof choice === 'string' ? choice : choice.text;
+            return (
+              <button
+                key={label}
+                onClick={() => handleSelect(label)}
+                className={`w-full p-5 rounded-2xl text-left border-2 transition-all flex items-center gap-4 ${
+                  answers[currentQuestion.id] === label 
+                  ? 'border-indigo-600 bg-indigo-50' 
+                  : 'border-white bg-white shadow-sm'
+                }`}
+              >
+                <div className={`w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm ${
+                  answers[currentQuestion.id] === label ? 'bg-indigo-600 text-white' : 'bg-slate-100 text-slate-500'
+                }`}>
+                  {label}
+                </div>
+                <span className="text-lg text-slate-700 japanese">{choiceText}</span>
+              </button>
+            )
+          })}
         </div>
       </main>
 
-      {/* Footer Navigation */}
       <footer className="p-6 bg-white border-t border-slate-200 flex items-center justify-between">
         <button 
           disabled={currentIdx === 0}
@@ -120,7 +120,6 @@ const QuizSessionUI: React.FC<QuizSessionUIProps> = ({ session, onComplete, onCa
         </button>
       </footer>
 
-      {/* Confirmation Dialogs */}
       {showConfirmCancel && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-6 bg-black/50 backdrop-blur-sm">
           <div className="bg-white p-8 rounded-3xl w-full max-w-xs shadow-2xl">

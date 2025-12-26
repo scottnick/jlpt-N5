@@ -31,16 +31,11 @@ const App: React.FC = () => {
   }, [dailyGoal]);
 
   const handleQuizFinish = (correctCount: number, timeSeconds: number) => {
-    // 1. Update daily goal
     setDailyGoal(prev => ({ ...prev, current: prev.current + correctCount }));
-    
-    // 2. Update persistent detailed stats
     if (activeSession) {
       localDb.updateQuizResult(activeSession.examLevel, activeSession.questions.length, correctCount, timeSeconds);
-      
-      // 3. Save wrong questions
       const wrongs: WrongQuestion[] = activeSession.questions
-        .filter(q => quizResults?.answers[q.id] !== q.answer.label)
+        .filter(q => quizResults?.answers[q.id] !== (q.answerIndex + 1).toString())
         .map(q => ({
           id: `${q.id}_${Date.now()}`,
           level: activeSession.examLevel,
@@ -51,7 +46,6 @@ const App: React.FC = () => {
         }));
       localDb.addWrongQuestions(wrongs);
     }
-    
     navigateTo('home');
   };
 
@@ -118,14 +112,81 @@ const App: React.FC = () => {
   );
 };
 
+// Item Type Definitions
+const ITEM_TYPES_CONFIG: Record<string, Record<string, { id: string, label: string }[]>> = {
+  'N5': {
+    vocabulary: [
+      { id: 'kanji_reading', label: '漢字讀法' },
+      { id: 'orthography', label: '表記' },
+      { id: 'context_expression', label: '文脈規定' },
+      { id: 'paraphrase', label: '近義替換' },
+    ],
+    grammar: [
+      { id: 'selecting_grammar_form', label: '文法形式' },
+      { id: 'sentence_composition', label: '句子組成' },
+    ],
+    reading: [
+      { id: 'reading_short_passage', label: '短文理解' },
+      { id: 'reading_info_retrieval', label: '資訊檢索' },
+    ],
+    mock: [
+      { id: 'mock_mixed', label: '綜合模擬題' }
+    ]
+  },
+  'N4': {
+    vocabulary: [
+      { id: 'kanji_reading', label: '漢字讀法' },
+      { id: 'orthography', label: '表記' },
+      { id: 'context_expression', label: '文脈規定' },
+      { id: 'paraphrase', label: '近義替換' },
+      { id: 'usage', label: '用法' },
+    ],
+    grammar: [
+      { id: 'selecting_grammar_form', label: '文法形式' },
+      { id: 'sentence_composition', label: '句子組成' },
+      { id: 'text_grammar', label: '文章文法' },
+    ],
+    reading: [
+      { id: 'reading_short_passage', label: '短文理解' },
+      { id: 'reading_mid_passage', label: '中級文章理解' },
+      { id: 'reading_info_retrieval', label: '資訊檢索' },
+    ],
+    mock: [
+      { id: 'mock_mixed', label: '綜合模擬題' }
+    ]
+  },
+  'Conversational': {
+    vocabulary: [{ id: 'daily_words', label: '日常單字' }],
+    grammar: [{ id: 'daily_grammar', label: '日常文法' }],
+    reading: [{ id: 'daily_reading', label: '生活對話' }],
+    mock: [{ id: 'daily_mock', label: '情境模擬' }]
+  }
+};
+
 const QuizSetup: React.FC<{ level: ExamLevel, category: Category, onStart: (s: QuizSession) => void, onBack: () => void }> = ({ level, category, onStart, onBack }) => {
   const [count, setCount] = useState(5);
   const [loading, setLoading] = useState(false);
+  
+  const availableTypes = ITEM_TYPES_CONFIG[level]?.[category] || [];
+  const [selectedTypes, setSelectedTypes] = useState<string[]>(availableTypes.map(t => t.id));
+
+  const toggleType = (id: string) => {
+    setSelectedTypes(prev => prev.includes(id) ? prev.filter(x => x !== id) : [...prev, id]);
+  };
+
+  const toggleAll = () => {
+    if (selectedTypes.length === availableTypes.length) setSelectedTypes([]);
+    else setSelectedTypes(availableTypes.map(t => t.id));
+  };
 
   const handleStart = async () => {
+    if (selectedTypes.length === 0) {
+      alert("請至少選擇一個題型");
+      return;
+    }
     setLoading(true);
     try {
-      const session = await generateQuiz(level, category, count);
+      const session = await generateQuiz(level, category, count, selectedTypes);
       onStart(session);
     } catch (e) {
       alert(e instanceof Error ? e.message : '發生錯誤');
@@ -139,8 +200,8 @@ const QuizSetup: React.FC<{ level: ExamLevel, category: Category, onStart: (s: Q
       <div className="flex flex-col items-center justify-center h-full p-8 text-center gap-6">
         <div className="w-16 h-16 border-4 border-indigo-600 border-t-transparent rounded-full animate-spin"></div>
         <div>
-          <h2 className="text-xl font-bold text-slate-800">正在透過 AI 生成題目...</h2>
-          <p className="text-slate-500 mt-2">這可能需要幾秒鐘，請稍候</p>
+          <h2 className="text-xl font-bold text-slate-800 animate-pulse">正在透過 AI 生成題目...</h2>
+          <p className="text-slate-500 mt-2">正在為您平均分配各小題型</p>
         </div>
       </div>
     );
@@ -153,27 +214,41 @@ const QuizSetup: React.FC<{ level: ExamLevel, category: Category, onStart: (s: Q
         返回
       </button>
 
-      <h2 className="text-2xl font-bold text-slate-800 mb-2">選擇題數</h2>
+      <h2 className="text-2xl font-bold text-slate-800 mb-2">測驗設定</h2>
       <p className="text-slate-500 mb-8">{level} - {category === 'vocabulary' ? '文字語彙' : category === 'grammar' ? '文法' : category === 'reading' ? '讀解' : '模擬考'}</p>
 
-      <div className="grid grid-cols-3 gap-4 mb-8">
-        {[3, 5, 10].map(n => (
-          <button 
-            key={n}
-            onClick={() => setCount(n)}
-            className={`py-4 rounded-2xl font-bold transition-all ${count === n ? 'bg-indigo-600 text-white shadow-lg' : 'bg-white text-slate-600 border border-slate-200'}`}
-          >
-            {n} 題
+      <div className="mb-8">
+        <div className="flex justify-between items-center mb-4">
+          <h3 className="font-bold text-slate-700">選擇小題型</h3>
+          <button onClick={toggleAll} className="text-xs text-indigo-600 font-bold bg-indigo-50 px-2 py-1 rounded">
+            {selectedTypes.length === availableTypes.length ? "取消全選" : "全選"}
           </button>
-        ))}
+        </div>
+        <div className="flex flex-wrap gap-2">
+          {availableTypes.map(type => (
+            <button
+              key={type.id}
+              onClick={() => toggleType(type.id)}
+              className={`px-3 py-2 rounded-xl text-xs font-bold border transition-all ${selectedTypes.includes(type.id) ? 'bg-indigo-600 text-white border-indigo-600' : 'bg-white text-slate-500 border-slate-200'}`}
+            >
+              {type.label}
+            </button>
+          ))}
+        </div>
       </div>
 
-      <div className="flex items-center justify-between bg-white p-4 rounded-2xl border border-slate-200 mb-12">
-        <span className="text-slate-700 font-medium">自訂題數</span>
-        <div className="flex items-center gap-4">
-          <button onClick={() => setCount(Math.max(1, count - 1))} className="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-xl">-</button>
-          <span className="text-xl font-bold w-8 text-center">{count}</span>
-          <button onClick={() => setCount(count + 1)} className="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-xl">+</button>
+      <div className="mb-8">
+        <h3 className="font-bold text-slate-700 mb-4">選擇題數</h3>
+        <div className="grid grid-cols-3 gap-4">
+          {[3, 5, 10].map(n => (
+            <button 
+              key={n}
+              onClick={() => setCount(n)}
+              className={`py-4 rounded-2xl font-bold transition-all ${count === n ? 'bg-indigo-600 text-white shadow-lg' : 'bg-white text-slate-600 border border-slate-200'}`}
+            >
+              {n} 題
+            </button>
+          ))}
         </div>
       </div>
 

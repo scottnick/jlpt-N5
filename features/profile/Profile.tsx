@@ -16,10 +16,11 @@ const Profile: React.FC<ProfileProps> = ({ dailyGoal }) => {
     ? Math.round((stats.totalCorrect / stats.totalQuestions) * 100) 
     : 0;
 
+  // REORDERED: N4 -> N5 -> Conversational
   const levels = [
-    { id: 'N5', name: 'JLPT N5', icon: '🐣' },
-    { id: 'N4', name: 'JLPT N4', icon: '🐤' },
-    { id: 'Conversational', name: '日常對話', icon: '💬' }
+    { id: 'N4', name: 'JLPT N4', tag: 'N4' },
+    { id: 'N5', name: 'JLPT N5', tag: 'N5' },
+    { id: 'Conversational', name: '日常對話', tag: '日常' }
   ];
 
   return (
@@ -35,7 +36,6 @@ const Profile: React.FC<ProfileProps> = ({ dailyGoal }) => {
             </div>
         </div>
 
-        {/* Enhanced Summary Card */}
         <div className="bg-white rounded-[32px] p-6 shadow-sm border border-slate-100 flex items-center justify-around mb-8">
             <div className="text-center">
                 <div className="text-[10px] font-black text-slate-300 uppercase tracking-widest mb-1">總做題數</div>
@@ -48,9 +48,8 @@ const Profile: React.FC<ProfileProps> = ({ dailyGoal }) => {
             </div>
         </div>
 
-        {/* Accordion Stats */}
         <div className="space-y-3 mb-10">
-            <h3 className="text-sm font-black text-slate-300 uppercase tracking-widest px-1">各項數據詳情</h3>
+            <h3 className="text-sm font-black text-slate-300 uppercase tracking-widest px-1">各級別數據</h3>
             {levels.map(lvl => {
                 const s = stats.levelStats[lvl.id] || { doneCount: 0, correctCount: 0, totalTimeSeconds: 0 };
                 const acc = s.doneCount > 0 ? Math.round((s.correctCount / s.doneCount) * 100) : 0;
@@ -64,13 +63,14 @@ const Profile: React.FC<ProfileProps> = ({ dailyGoal }) => {
                             className="w-full flex items-center justify-between p-5 text-left active:bg-slate-50 transition-colors"
                         >
                             <div className="flex items-center gap-3">
-                                <span className="text-xl">{lvl.icon}</span>
+                                <div className="w-10 h-10 rounded-xl bg-indigo-50 flex items-center justify-center text-indigo-600 font-bold text-xs">
+                                    {lvl.tag}
+                                </div>
                                 <span className="font-bold text-slate-700">{lvl.name}</span>
                             </div>
                             <div className="flex items-center gap-4">
                                 <div className="text-right">
-                                    <span className="text-xs font-black text-slate-300 uppercase block leading-none mb-1">已做題</span>
-                                    <span className="font-bold text-slate-600">{s.doneCount}</span>
+                                    <span className="text-[10px] font-black text-indigo-600 bg-indigo-50 px-2 py-0.5 rounded-full block leading-none mb-1">已做 {s.doneCount}</span>
                                 </div>
                                 <svg className={`w-5 h-5 text-slate-300 transition-transform ${isExpanded ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path></svg>
                             </div>
@@ -80,12 +80,16 @@ const Profile: React.FC<ProfileProps> = ({ dailyGoal }) => {
                             <div className="px-5 pb-5 animate-fade-in flex items-center justify-between border-t border-slate-50 pt-5">
                                 <div className="space-y-4 flex-1">
                                     <div className="bg-slate-50 p-3 rounded-xl border border-slate-100">
-                                        <div className="text-[9px] font-black text-slate-400 uppercase tracking-widest">答對題數</div>
+                                        <div className="text-[9px] font-black text-slate-400 uppercase tracking-widest">正確題數</div>
                                         <div className="font-bold text-slate-700">{s.correctCount} <span className="text-xs font-normal text-slate-400">/ {s.doneCount}</span></div>
                                     </div>
                                     <div className="bg-slate-50 p-3 rounded-xl border border-slate-100">
                                         <div className="text-[9px] font-black text-slate-400 uppercase tracking-widest">平均作答</div>
                                         <div className="font-bold text-slate-700">{avg} <span className="text-xs font-normal text-slate-400">秒/題</span></div>
+                                    </div>
+                                    <div className="bg-slate-50 p-3 rounded-xl border border-slate-100">
+                                        <div className="text-[9px] font-black text-slate-400 uppercase tracking-widest">答對率</div>
+                                        <div className="font-bold text-emerald-600">{acc}%</div>
                                     </div>
                                 </div>
                                 
@@ -98,7 +102,7 @@ const Profile: React.FC<ProfileProps> = ({ dailyGoal }) => {
                                     >
                                         <div className="absolute inset-[10px] bg-white rounded-full flex flex-col items-center justify-center">
                                             <span className="text-xl font-black text-slate-800 leading-none">{acc}%</span>
-                                            <span className="text-[8px] font-bold text-slate-400 mt-1">答對率</span>
+                                            <span className="text-[8px] font-bold text-slate-400 mt-1">Accuracy</span>
                                         </div>
                                     </div>
                                 </div>
@@ -109,7 +113,6 @@ const Profile: React.FC<ProfileProps> = ({ dailyGoal }) => {
             })}
         </div>
 
-        {/* Learning Calendar */}
         <div className="mb-10">
             <Calendar dailyGoal={dailyGoal} />
         </div>

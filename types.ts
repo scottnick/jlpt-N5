@@ -3,37 +3,37 @@ export type ExamLevel = 'N4' | 'N5' | 'Conversational';
 export type Category = 'vocabulary' | 'grammar' | 'reading' | 'mock';
 
 export interface Choice {
-  label: 'A' | 'B' | 'C' | 'D';
+  label: string; // Will show "1", "2", "3", "4"
   text: string;
-  word: string;
-  reading: string;
-  pos: string;
-  verbType: '1' | '2' | '3' | null;
-  meaningZh: string;
+  word?: string;
+  reading?: string;
+  pos?: string;
+  meaningZh?: string;
+}
+
+export interface OptionAnalysis {
+  label: string;
+  whyWrongOrRight: string;
 }
 
 export interface Explanation {
-  stemTranslationZh: string;
-  choiceNotes: ChoiceNote[];
-  whyCorrect: string;
-  whyOthersWrong: string;
-}
-
-export interface ChoiceNote {
-  label: 'A' | 'B' | 'C' | 'D';
-  word: string;
-  pos: string;
-  verbType: '1' | '2' | '3' | null;
-  meaningZh: string;
+  correct: string;
+  analysis: string;
+  options: OptionAnalysis[];
+  extra?: string;
+  stemTranslationZh?: string; // Legacy support if needed
 }
 
 export interface Question {
   id: string;
-  subtype: string;
-  stem: string;
+  level: ExamLevel;
+  category: Category;
+  itemType: string;
+  subtype?: string; // Legacy support
+  stem: string; // The question text/sentence
   instruction: string;
-  choices: Choice[];
-  answer: { label: 'A' | 'B' | 'C' | 'D' };
+  choices: string[] | Choice[]; // Gemini will return string[], we map to Choice UI
+  answerIndex: number; // 0-3
   explanation: Explanation;
 }
 
@@ -56,7 +56,6 @@ export interface UserStats {
   totalQuestions: number;
   totalCorrect: number;
   totalTimeSeconds: number;
-  // Stats keyed by ExamLevel
   levelStats: Record<string, LevelStats>;
 }
 
@@ -65,7 +64,7 @@ export interface WrongQuestion {
   level: ExamLevel;
   category: Category;
   question: Question;
-  userAnswer: string;
+  userAnswer: string; // "1", "2", "3", "4"
   timestamp: string;
 }
 
