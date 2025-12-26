@@ -65,16 +65,16 @@ export const JLPT_REFERENCE_BANK = {
         category: "vocabulary",
         itemType: "orthography",
         question: "あの方はわたしの [[u]]せんせい[[/u]] です。",
-        choices: ["先生", "學生", "先週", "學生"],
+        choices: ["先生", "学生", "先週", "洗濯"],
         answerIndex: 0,
         explanation: {
           correct: "1. 先生",
-          analysis: "考查常用詞彙「先生」的漢字寫法。",
+          analysis: "考查常用詞彙「先生」的正確漢字寫法，並區分形近或音近詞彙。",
           options: [
             { label: "1", whyWrongOrRight: "正確，「先生」對應「せんせい」。" },
-            { label: "2", whyWrongOrRight: "錯誤，「學生」對應「がくせい」。" },
-            { label: "3", whyWrongOrRight: "錯誤，「先週」對應「せんしゅう」。" },
-            { label: "4", whyWrongOrRight: "重複選項，錯誤。" }
+            { label: "2", whyWrongOrRight: "錯誤，「学生（がくせい）」指學生。" },
+            { label: "3", whyWrongOrRight: "錯誤，「先週（せんしゅう）」指上週。" },
+            { label: "4", whyWrongOrRight: "錯誤，「洗濯（せんたく）」指洗衣服。" }
           ]
         }
       },
@@ -83,17 +83,17 @@ export const JLPT_REFERENCE_BANK = {
         level: "N5",
         category: "vocabulary",
         itemType: "context_expression",
-        question: "くらいですから、まどを （　） ください。",
-        choices: ["あけて", "しめて", "つけて", "けして"],
+        question: "くらいですから、電気を （　） ください。",
+        choices: ["つけて", "けして", "あけて", "しめて"],
         answerIndex: 0,
         explanation: {
-          correct: "1. あけて",
-          analysis: "根據前半句「很暗」，後段通常要求開窗或開燈。選項中開窗最自然。",
+          correct: "1. つけて",
+          analysis: "根據前半句「很暗（くらい）」，後段要求打開電器設備最為自然。",
           options: [
-            { label: "1", whyWrongOrRight: "正確，「開（あ）ける」指打開窗戶。" },
-            { label: "2", whyWrongOrRight: "錯誤，「閉（し）める」指關閉。" },
-            { label: "3", whyWrongOrRight: "錯誤，「つける」指打開電子設備。" },
-            { label: "4", whyWrongOrRight: "錯誤，「けす」指關掉電源。" }
+            { label: "1", whyWrongOrRight: "正確，「つける」指打開電子設備（電燈）。" },
+            { label: "2", whyWrongOrRight: "錯誤，「けす」指關掉電源。" },
+            { label: "3", whyWrongOrRight: "錯誤，「開（あ）ける」指打開窗或門。" },
+            { label: "4", whyWrongOrRight: "錯誤，「閉（し）める」指關閉。" }
           ]
         }
       },
@@ -253,7 +253,7 @@ export const JLPT_REFERENCE_BANK = {
           ]
         },
         passage: {
-          text: "リーさん、こんにちは。今日の午後はデパートへ買い物に行きます。その後、4時に駅で田中さんと会いましょう。よろしくお願いします。"
+          text: "リーさん、こんにちは。今日の午後はデパートへ買い物に行きます。之後，4時に駅で田中さんと会いましょう。よろしくお願いします。"
         }
       },
       {
@@ -333,7 +333,7 @@ export const JLPT_REFERENCE_BANK = {
         level: "N4",
         category: "vocabulary",
         itemType: "orthography",
-        question: "この道は車が多くて [[u]]あぶない[[/u]] です。",
+        question: "この道は車が多くて [[u]]危ない[[/u]] です。",
         choices: ["危ない", "恐い", "暗い", "苦い"],
         answerIndex: 0,
         explanation: {
@@ -353,16 +353,16 @@ export const JLPT_REFERENCE_BANK = {
         category: "vocabulary",
         itemType: "orthography",
         question: "将来の [[u]]けいかく[[/u]] を立てます。",
-        choices: ["計劃", "計面", "結畫", "形畫"],
+        choices: ["計画", "計面", "結画", "形画"],
         answerIndex: 0,
         explanation: {
-          correct: "1. 計劃",
-          analysis: "考查「計劃」的正確寫法。注意「畫」的結構。",
+          correct: "1. 計画",
+          analysis: "考查「計畫（けいかく）」的正確日文漢字寫法。",
           options: [
-            { label: "1", whyWrongOrRight: "正確，「計劃」即「けいかく」。" },
-            { label: "2", whyWrongOrRight: "錯誤，右側部件不對。" },
-            { label: "3", whyWrongOrRight: "錯誤，左側漢字錯誤。" },
-            { label: "4", whyWrongOrRight: "錯誤，形近字錯誤。" }
+            { label: "1", whyWrongOrRight: "正確，「計画」對應「けいかく」。" },
+            { label: "2", whyWrongOrRight: "錯誤，漢字字形錯誤。" },
+            { label: "3", whyWrongOrRight: "錯誤，使用了錯誤的組合。" },
+            { label: "4", whyWrongOrRight: "錯誤，音近但形錯。" }
           ]
         }
       },
@@ -379,7 +379,7 @@ export const JLPT_REFERENCE_BANK = {
           analysis: "日文中，吃藥固定搭配動詞「飲む（のむ）」。",
           options: [
             { label: "1", whyWrongOrRight: "正確，藥物的搭配動詞是「のむ」。" },
-            { label: "2", whyWrongOrRight: "錯誤，不可直接用「たべて」。" },
+            { label: "2", whyWrongOrRight: "錯誤，不可直接用「たべる」。" },
             { label: "3", whyWrongOrRight: "錯誤，「かむ」是咀嚼。" },
             { label: "4", whyWrongOrRight: "錯誤，「ふく」是擦拭。" }
           ]
@@ -412,7 +412,7 @@ export const JLPT_REFERENCE_BANK = {
         question: "（準備）の使い方として最も適切なものを選びなさい。",
         choices: [
           "明日旅行に行くので、荷物の準備をします。",
-          "毎日準備を食べてから學校へ行きます。",
+          "毎日準備を食べてから学校へ行きます。",
           "この準備はとても美味しいです。",
           "彼は準備が速いので100メートル10秒で走れます。"
         ],
@@ -455,16 +455,16 @@ export const JLPT_REFERENCE_BANK = {
         category: "grammar",
         itemType: "sentence_composition",
         question: "私は母 ___ ___ _★_ ___ くれました。",
-        choices: ["を", "誕生日に", "時計", "買って"],
+        choices: ["に", "誕生日に", "時計を", "買って"],
         answerIndex: 2,
         explanation: {
-          correct: "3. 時計",
-          analysis: "正確順序為「私は母に 誕生日に 時計を 買って くれました」。",
+          correct: "3. 時計を",
+          analysis: "正確順序為「私は 母に(1) 誕生日に(2) 時計を(3★) 買っ(4)て くれました」。考查授予關係句型。",
           options: [
-            { label: "1", whyWrongOrRight: "助詞需接在名詞後。" },
-            { label: "2", whyWrongOrRight: "時間狀語位置較靈活。" },
-            { label: "3", whyWrongOrRight: "正確，受詞在星星處。" },
-            { label: "4", whyWrongOrRight: "補助動詞前接て形。" }
+            { label: "1", whyWrongOrRight: "錯誤，對象助詞需緊跟對象。" },
+            { label: "2", whyWrongOrRight: "錯誤，時間狀語位置。" },
+            { label: "3", whyWrongOrRight: "正確，星星位置應填入受詞「時計を」。" },
+            { label: "4", whyWrongOrRight: "錯誤，動詞連用形接續。" }
           ]
         }
       },
@@ -511,7 +511,7 @@ export const JLPT_REFERENCE_BANK = {
           ]
         },
         passage: {
-          text: "木村さん、お疲れ様です。明日の親睦會ですが、仕事が終わらないため、開始時間を19時から20時に変更させてください。急ですみませんが、よろしくお願いします。"
+          text: "木村さん、お疲れ様です。明日の親睦会ですが、仕事が終わらないため、開始時間を19時から20時に変更させてください。急ですみませんが、よろしくお願いします。"
         }
       },
       {
