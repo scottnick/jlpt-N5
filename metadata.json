@@ -1,0 +1,5 @@
+{
+  "name": "JLPT Master - 日文學習專家",
+  "description": "專業日文學習應用程式，整合 Gemini LLM 產題系統，支援 N4、N5 及日常對話測驗，具備筆記本與學習日曆功能。",
+  "requestFramePermissions": []
+}
