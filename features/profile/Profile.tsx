@@ -16,12 +16,18 @@ const Profile: React.FC<ProfileProps> = ({ dailyGoal }) => {
     ? Math.round((stats.totalCorrect / stats.totalQuestions) * 100) 
     : 0;
 
-  // REORDERED: N4 -> N5 -> Conversational
   const levels = [
     { id: 'N4', name: 'JLPT N4', tag: 'N4' },
     { id: 'N5', name: 'JLPT N5', tag: 'N5' },
     { id: 'Conversational', name: '日常對話', tag: '日常' }
   ];
+
+  const getAccColor = (acc: number) => {
+    if (acc >= 80) return '#10b981'; // Emerald (綠)
+    if (acc >= 60) return '#3b82f6'; // Blue (藍)
+    if (acc >= 40) return '#f59e0b'; // Amber (黃橘)
+    return '#ef4444'; // Red (紅)
+  };
 
   return (
     <div className="bg-slate-50 min-h-screen">
@@ -36,15 +42,23 @@ const Profile: React.FC<ProfileProps> = ({ dailyGoal }) => {
             </div>
         </div>
 
-        <div className="bg-white rounded-[32px] p-6 shadow-sm border border-slate-100 flex items-center justify-around mb-8">
-            <div className="text-center">
-                <div className="text-[10px] font-black text-slate-300 uppercase tracking-widest mb-1">總做題數</div>
-                <div className="text-2xl font-black text-slate-800">{stats.totalQuestions}</div>
+        {/* 優化後的總體表現卡片 */}
+        <div className="bg-white rounded-[32px] p-6 shadow-sm border border-slate-100 flex items-center gap-6 mb-8">
+            <div className="w-16 h-16 rounded-3xl bg-indigo-50 flex items-center justify-center text-indigo-600 flex-shrink-0">
+                <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
+                </svg>
             </div>
-            <div className="w-[1px] h-10 bg-slate-100"></div>
-            <div className="text-center">
-                <div className="text-[10px] font-black text-slate-300 uppercase tracking-widest mb-1">總答對率</div>
-                <div className="text-2xl font-black text-indigo-600">{totalAccuracy}%</div>
+            <div className="w-[1px] h-12 bg-slate-100"></div>
+            <div className="flex flex-1 justify-around">
+                <div className="text-center">
+                    <div className="text-[10px] font-black text-slate-300 uppercase tracking-widest mb-1">總做題數</div>
+                    <div className="text-2xl font-black text-slate-800 tracking-tight">{stats.totalQuestions}</div>
+                </div>
+                <div className="text-center">
+                    <div className="text-[10px] font-black text-slate-300 uppercase tracking-widest mb-1">總答對率</div>
+                    <div className="text-2xl font-black text-indigo-600 tracking-tight">{totalAccuracy}%</div>
+                </div>
             </div>
         </div>
 
@@ -55,6 +69,7 @@ const Profile: React.FC<ProfileProps> = ({ dailyGoal }) => {
                 const acc = s.doneCount > 0 ? Math.round((s.correctCount / s.doneCount) * 100) : 0;
                 const avg = s.doneCount > 0 ? Math.round(s.totalTimeSeconds / s.doneCount) : 0;
                 const isExpanded = expandedLevel === lvl.id;
+                const color = getAccColor(acc);
 
                 return (
                     <div key={lvl.id} className="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden transition-all">
@@ -87,22 +102,17 @@ const Profile: React.FC<ProfileProps> = ({ dailyGoal }) => {
                                         <div className="text-[9px] font-black text-slate-400 uppercase tracking-widest">平均作答</div>
                                         <div className="font-bold text-slate-700">{avg} <span className="text-xs font-normal text-slate-400">秒/題</span></div>
                                     </div>
-                                    <div className="bg-slate-50 p-3 rounded-xl border border-slate-100">
-                                        <div className="text-[9px] font-black text-slate-400 uppercase tracking-widest">答對率</div>
-                                        <div className="font-bold text-emerald-600">{acc}%</div>
-                                    </div>
                                 </div>
                                 
-                                <div className="flex flex-col items-center justify-center pl-6">
+                                <div className="flex flex-col items-center justify-center pl-6 animate-grow-in">
                                     <div 
-                                        className="relative w-24 h-24 rounded-full flex items-center justify-center"
+                                        className="relative w-24 h-24 rounded-full flex items-center justify-center shadow-sm"
                                         style={{
-                                            background: `conic-gradient(#4f46e5 ${acc * 3.6}deg, #f1f5f9 0deg)`
+                                            background: `conic-gradient(${color} ${acc * 3.6}deg, #f1f5f9 0deg)`
                                         }}
                                     >
-                                        <div className="absolute inset-[10px] bg-white rounded-full flex flex-col items-center justify-center">
+                                        <div className="absolute inset-[10px] bg-white rounded-full flex flex-col items-center justify-center shadow-inner">
                                             <span className="text-xl font-black text-slate-800 leading-none">{acc}%</span>
-                                            <span className="text-[8px] font-bold text-slate-400 mt-1">Accuracy</span>
                                         </div>
                                     </div>
                                 </div>
