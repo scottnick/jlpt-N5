@@ -7,18 +7,22 @@ import Results from './features/questions/Results';
 import NotebookHub from './features/notebook/NotebookHub';
 import NotebookList from './features/notebook/NotebookList';
 import WrongBook from './features/notebook/WrongBook';
+import BankHub from './features/bank/BankHub';
+import BankList from './features/bank/BankList';
+import BankDetail from './features/bank/BankDetail';
 import Profile from './features/profile/Profile';
-import { ExamLevel, Category, QuizSession, WrongQuestion } from './types';
+import { ExamLevel, Category, QuizSession, WrongQuestion, Question } from './types';
 import { localDb } from './db/localDb';
 import { generateQuiz } from './services/gemini';
 
-type AppScreen = 'home' | 'mode_select' | 'quiz_setup' | 'quiz' | 'results' | 'notebook_hub' | 'notebook_words' | 'notebook_wrong' | 'profile';
+type AppScreen = 'home' | 'mode_select' | 'quiz_setup' | 'quiz' | 'results' | 'notebook_hub' | 'notebook_words' | 'notebook_wrong' | 'profile' | 'bank_hub' | 'bank_list' | 'bank_detail';
 
 const App: React.FC = () => {
   const [currentScreen, setCurrentScreen] = useState<AppScreen>('home');
   const [selectedLevel, setSelectedLevel] = useState<ExamLevel>('N5');
   const [selectedCategory, setSelectedCategory] = useState<Category>('vocabulary');
   const [activeSession, setActiveSession] = useState<QuizSession | null>(null);
+  const [activeQuestion, setActiveQuestion] = useState<Question | null>(null);
   const [quizResults, setQuizResults] = useState<{ answers: Record<string, string>, time: number } | null>(null);
   const [dailyGoal, setDailyGoal] = useState(localDb.getGoals());
 
@@ -62,11 +66,20 @@ const App: React.FC = () => {
       case 'results':
         return <Results session={activeSession!} results={quizResults!} onFinish={(correct) => handleQuizFinish(correct, quizResults!.time)} />;
       case 'notebook_hub':
-        return <NotebookHub onSelect={(choice) => navigateTo(choice === 'words' ? 'notebook_words' : 'notebook_wrong')} />;
+        return <NotebookHub onSelect={(choice) => {
+          if (choice === 'bank') navigateTo('bank_hub');
+          else navigateTo(choice === 'words' ? 'notebook_words' : 'notebook_wrong');
+        }} />;
       case 'notebook_words':
         return <NotebookList onBack={() => navigateTo('notebook_hub')} />;
       case 'notebook_wrong':
         return <WrongBook onBack={() => navigateTo('notebook_hub')} />;
+      case 'bank_hub':
+        return <BankHub onBack={() => navigateTo('notebook_hub')} onSelectBank={(l, c) => { setSelectedLevel(l); setSelectedCategory(c); navigateTo('bank_list'); }} />;
+      case 'bank_list':
+        return <BankList level={selectedLevel} category={selectedCategory} onBack={() => navigateTo('bank_hub')} onSelectQuestion={(q) => { setActiveQuestion(q); navigateTo('bank_detail'); }} />;
+      case 'bank_detail':
+        return <BankDetail question={activeQuestion!} onBack={() => navigateTo('bank_list')} />;
       case 'profile':
         return <Profile dailyGoal={dailyGoal} />;
       default:
@@ -75,7 +88,7 @@ const App: React.FC = () => {
   };
 
   const isQuizMode = currentScreen === 'quiz' || currentScreen === 'results';
-  const isNotebookActive = currentScreen.startsWith('notebook');
+  const isNotebookActive = currentScreen.startsWith('notebook') || currentScreen.startsWith('bank');
 
   return (
     <div className="flex flex-col h-screen max-w-md mx-auto bg-slate-50 relative shadow-2xl overflow-hidden">

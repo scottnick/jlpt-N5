@@ -46,6 +46,13 @@ export interface QuizSession {
   questions: Question[];
 }
 
+export interface QuestionBank {
+  level: ExamLevel;
+  category: Category;
+  updatedAt: string;
+  questions: Question[];
+}
+
 export interface LevelStats {
   doneCount: number;
   correctCount: number;
