@@ -1,5 +1,6 @@
 
 import { UserStats, NotebookEntry, DailyGoal, WrongQuestion, LevelStats, QuestionBank } from '../types';
+import { BUILT_IN_N5_VOCABULARY } from './builtInBank';
 
 const STORAGE_KEYS = {
   STATS: 'jlpt_stats_v2',
@@ -62,7 +63,6 @@ export const localDb = {
   },
   addWrongQuestions: (items: WrongQuestion[]) => {
     const current = localDb.getWrongQuestions();
-    // Fix: Corrected the scope of 't' by moving it inside findIndex and fixed the deduplication logic
     const updated = [...items, ...current].filter((v, i, a) => 
       a.findIndex(t => t.id === v.id || t.question.stem === v.question.stem) === i
     );
@@ -85,10 +85,22 @@ export const localDb = {
     const notebook = localDb.getNotebook();
     localDb.saveNotebook(notebook.filter(e => e.word !== word));
   },
-  // Bank logic
+  // Bank logic with Fallback
   getBank: (level: string, category: string): QuestionBank | null => {
     const data = localStorage.getItem(`${STORAGE_KEYS.BANK_PREFIX}${level}_${category}`);
-    return data ? JSON.parse(data) : null;
+    if (data) return JSON.parse(data);
+
+    // Fallback to built-in for N5 Vocabulary
+    if (level === 'N5' && category === 'vocabulary') {
+      return {
+        level: 'N5',
+        category: 'vocabulary',
+        updatedAt: new Date(2025, 0, 1).toISOString(), // 固定系統日期
+        questions: BUILT_IN_N5_VOCABULARY
+      };
+    }
+
+    return null;
   },
   saveBank: (bank: QuestionBank) => {
     localStorage.setItem(`${STORAGE_KEYS.BANK_PREFIX}${bank.level}_${bank.category}`, JSON.stringify(bank));

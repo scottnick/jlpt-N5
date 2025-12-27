@@ -59,7 +59,7 @@ const BankHub: React.FC<{ onBack: () => void; onSelectBank: (l: ExamLevel, c: Ca
       </div>
 
       <div className="space-y-10">
-        {['N4', 'N5'].map(level => (
+        {['N5', 'N4'].map(level => (
           <section key={level}>
             <h3 className="text-sm font-black text-slate-300 uppercase tracking-widest mb-4 px-1">{level} 專業題庫</h3>
             <div className="grid grid-cols-1 gap-4">
@@ -67,14 +67,20 @@ const BankHub: React.FC<{ onBack: () => void; onSelectBank: (l: ExamLevel, c: Ca
                 const key = `${level}_${cat.id}`;
                 const bank = banks[key];
                 const isLoading = loadingMap[key];
+                const isBuiltIn = level === 'N5' && cat.id === 'vocabulary';
 
                 return (
                   <div key={cat.id} className="bg-white p-6 rounded-[32px] border border-slate-100 shadow-sm flex flex-col gap-4">
                     <div className="flex justify-between items-start">
                       <div>
-                        <h4 className="font-bold text-slate-800 text-lg">{cat.label}</h4>
+                        <div className="flex items-center gap-2">
+                            <h4 className="font-bold text-slate-800 text-lg">{cat.label}</h4>
+                            {isBuiltIn && (
+                                <span className="text-[9px] bg-emerald-100 text-emerald-600 px-1.5 py-0.5 rounded-full font-black uppercase">Built-in</span>
+                            )}
+                        </div>
                         {bank ? (
-                          <p className="text-xs text-slate-400 mt-1">共 {bank.questions.length} 題 • 更新於 {new Date(bank.updatedAt).toLocaleDateString()}</p>
+                          <p className="text-xs text-slate-400 mt-1">共 {bank.questions.length} 題 • {isBuiltIn ? '系統內建' : `更新於 ${new Date(bank.updatedAt).toLocaleDateString()}`}</p>
                         ) : (
                           <p className="text-xs text-slate-400 mt-1 italic">尚未生成題庫</p>
                         )}
@@ -93,13 +99,16 @@ const BankHub: React.FC<{ onBack: () => void; onSelectBank: (l: ExamLevel, c: Ca
                           進入題庫
                         </button>
                       ) : null}
-                      <button 
-                        disabled={isLoading}
-                        onClick={() => handleGenerate(level as ExamLevel, cat.id)}
-                        className={`flex-1 py-3 border-2 rounded-2xl font-bold text-sm transition-all ${isLoading ? 'bg-slate-50 text-slate-300 border-slate-100' : 'bg-white text-indigo-600 border-indigo-50 hover:bg-indigo-50'}`}
-                      >
-                        {isLoading ? '生成中...' : bank ? '更新題庫' : '立即生成'}
-                      </button>
+                      
+                      {!isBuiltIn && (
+                        <button 
+                            disabled={isLoading}
+                            onClick={() => handleGenerate(level as ExamLevel, cat.id)}
+                            className={`flex-1 py-3 border-2 rounded-2xl font-bold text-sm transition-all ${isLoading ? 'bg-slate-50 text-slate-300 border-slate-100' : 'bg-white text-indigo-600 border-indigo-50 hover:bg-indigo-50'}`}
+                        >
+                            {isLoading ? '生成中...' : bank ? '更新題庫' : '立即生成'}
+                        </button>
+                      )}
                     </div>
                   </div>
                 );
