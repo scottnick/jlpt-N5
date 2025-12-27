@@ -1,27 +1,13 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { QuizSession } from '../../types';
+import { parseUnderline } from '../../App';
 
 interface QuizSessionUIProps {
   session: QuizSession;
   onComplete: (answers: Record<string, string>, time: number) => void;
   onCancel: () => void;
 }
-
-const parseQuestionText = (text: string) => {
-  const parts = text.split(/(\[\[u\]\].*?\[\[\/u\]\])/g);
-  return parts.map((part, i) => {
-    const match = part.match(/\[\[u\]\](.*?)\[\[\/u\]\]/);
-    if (match) {
-      return (
-        <span key={i} className="underline decoration-slate-400 decoration-1 underline-offset-8 px-1">
-          {match[1]}
-        </span>
-      );
-    }
-    return part;
-  });
-};
 
 const QuizSessionUI: React.FC<QuizSessionUIProps> = ({ session, onComplete, onCancel }) => {
   const [currentIdx, setCurrentIdx] = useState(0);
@@ -88,9 +74,9 @@ const QuizSessionUI: React.FC<QuizSessionUIProps> = ({ session, onComplete, onCa
                 {currentQuestion.itemType || currentQuestion.subtype}
             </span>
         </div>
-        <div className="text-slate-500 text-sm mb-4">{currentQuestion.instruction}</div>
+        <div className="text-slate-500 text-sm mb-4">{parseUnderline(currentQuestion.instruction)}</div>
         <div className="text-2xl font-bold text-slate-800 mb-8 japanese leading-relaxed">
-          {parseQuestionText(currentQuestion.stem)}
+          {parseUnderline(currentQuestion.stem)}
         </div>
 
         <div className="space-y-4">

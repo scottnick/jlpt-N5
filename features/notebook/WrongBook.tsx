@@ -2,22 +2,7 @@
 import React, { useState } from 'react';
 import { localDb } from '../../db/localDb';
 import { WrongQuestion, ExamLevel } from '../../types';
-
-const parseQuestionText = (text: string, isPreview: boolean = false) => {
-  const parts = text.split(/(\[\[u\]\].*?\[\[\/u\]\])/g);
-  return parts.map((part, i) => {
-    const match = part.match(/\[\[u\]\](.*?)\[\[\/u\]\]/);
-    if (match) {
-      if (isPreview) return match[1];
-      return (
-        <span key={i} className="underline decoration-white/50 decoration-1 underline-offset-4 px-0.5">
-          {match[1]}
-        </span>
-      );
-    }
-    return part;
-  });
-};
+import { parseUnderline } from '../../App';
 
 const WrongBook: React.FC<{ onBack: () => void }> = ({ onBack }) => {
   const [items, setItems] = useState(localDb.getWrongQuestions());
@@ -60,7 +45,7 @@ const WrongBook: React.FC<{ onBack: () => void }> = ({ onBack }) => {
                   </div>
                   <div className="flex-1 overflow-hidden">
                       <p className="japanese text-sm font-bold text-slate-700 truncate">
-                        {parseQuestionText(item.question.stem, true)}
+                        {parseUnderline(item.question.stem)}
                       </p>
                       <p className="text-[10px] text-slate-400 mt-1 uppercase tracking-wider">{item.question.itemType || item.category} • {new Date(item.timestamp).toLocaleDateString()}</p>
                   </div>
@@ -69,7 +54,7 @@ const WrongBook: React.FC<{ onBack: () => void }> = ({ onBack }) => {
 
           {filtered.length === 0 && (
               <div className="text-center py-20 text-slate-300">
-                  <svg className="w-16 h-16 mx-auto mb-4 opacity-20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                  <svg className="w-16 h-16 mx-auto mb-4 opacity-20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
                   <p className="font-bold">目前沒有相關錯題紀錄</p>
               </div>
           )}
@@ -86,7 +71,7 @@ const WrongBook: React.FC<{ onBack: () => void }> = ({ onBack }) => {
                           </button>
                       </div>
                       <p className="japanese text-xl font-bold leading-relaxed">
-                        {parseQuestionText(selected.question.stem)}
+                        {parseUnderline(selected.question.stem)}
                       </p>
                   </div>
                   <div className="p-6 overflow-y-auto flex-1">

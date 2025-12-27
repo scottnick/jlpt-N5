@@ -2,27 +2,13 @@
 import React, { useState } from 'react';
 import { QuizSession, NotebookEntry } from '../../types';
 import { localDb } from '../../db/localDb';
+import { parseUnderline } from '../../App';
 
 interface ResultsProps {
   session: QuizSession;
   results: { answers: Record<string, string>, time: number };
   onFinish: (correctCount: number) => void;
 }
-
-const parseQuestionText = (text: string) => {
-  const parts = text.split(/(\[\[u\]\].*?\[\[\/u\]\])/g);
-  return parts.map((part, i) => {
-    const match = part.match(/\[\[u\]\](.*?)\[\[\/u\]\]/);
-    if (match) {
-      return (
-        <span key={i} className="underline decoration-slate-400 decoration-1 underline-offset-4 px-0.5">
-          {match[1]}
-        </span>
-      );
-    }
-    return part;
-  });
-};
 
 const Results: React.FC<ResultsProps> = ({ session, results, onFinish }) => {
   const [notebook, setNotebook] = useState(localDb.getNotebook());
@@ -73,7 +59,7 @@ const Results: React.FC<ResultsProps> = ({ session, results, onFinish }) => {
                     </span>
                 </div>
                 <div className="text-lg font-bold text-slate-800 japanese mb-4 leading-relaxed">
-                  {parseQuestionText(q.stem)}
+                  {parseUnderline(q.stem)}
                 </div>
                 
                 <div className="space-y-2 mb-6">

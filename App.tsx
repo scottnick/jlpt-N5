@@ -8,6 +8,7 @@ import NotebookHub from './features/notebook/NotebookHub';
 import NotebookList from './features/notebook/NotebookList';
 import WrongBook from './features/notebook/WrongBook';
 import BankHub from './features/bank/BankHub';
+import BankCategories from './features/bank/BankCategories';
 import BankList from './features/bank/BankList';
 import BankDetail from './features/bank/BankDetail';
 import Profile from './features/profile/Profile';
@@ -15,7 +16,24 @@ import { ExamLevel, Category, QuizSession, WrongQuestion, Question } from './typ
 import { localDb } from './db/localDb';
 import { generateQuiz } from './services/gemini';
 
-type AppScreen = 'home' | 'mode_select' | 'quiz_setup' | 'quiz' | 'results' | 'notebook_hub' | 'notebook_words' | 'notebook_wrong' | 'profile' | 'bank_hub' | 'bank_list' | 'bank_detail';
+type AppScreen = 'home' | 'mode_select' | 'quiz_setup' | 'quiz' | 'results' | 'notebook_hub' | 'notebook_words' | 'notebook_wrong' | 'profile' | 'bank_hub' | 'bank_categories' | 'bank_list' | 'bank_detail';
+
+// 全域底線解析函數
+export const parseUnderline = (text: string) => {
+  if (!text) return "";
+  const parts = text.split(/(\[\[u\]\].*?\[\[\/u\]\])/g);
+  return parts.map((part, i) => {
+    const match = part.match(/\[\[u\]\](.*?)\[\[\/u\]\]/);
+    if (match) {
+      return (
+        <span key={i} className="underline decoration-slate-400 decoration-1 underline-offset-4 font-bold">
+          {match[1]}
+        </span>
+      );
+    }
+    return part;
+  });
+};
 
 const App: React.FC = () => {
   const [currentScreen, setCurrentScreen] = useState<AppScreen>('home');
@@ -75,9 +93,11 @@ const App: React.FC = () => {
       case 'notebook_wrong':
         return <WrongBook onBack={() => navigateTo('notebook_hub')} />;
       case 'bank_hub':
-        return <BankHub onBack={() => navigateTo('notebook_hub')} onSelectBank={(l, c) => { setSelectedLevel(l); setSelectedCategory(c); navigateTo('bank_list'); }} />;
+        return <BankHub onBack={() => navigateTo('notebook_hub')} onSelectLevel={(l) => { setSelectedLevel(l); navigateTo('bank_categories'); }} />;
+      case 'bank_categories':
+        return <BankCategories level={selectedLevel} onBack={() => navigateTo('bank_hub')} onSelectCategory={(c) => { setSelectedCategory(c); navigateTo('bank_list'); }} />;
       case 'bank_list':
-        return <BankList level={selectedLevel} category={selectedCategory} onBack={() => navigateTo('bank_hub')} onSelectQuestion={(q) => { setActiveQuestion(q); navigateTo('bank_detail'); }} />;
+        return <BankList level={selectedLevel} category={selectedCategory} onBack={() => navigateTo('bank_categories')} onSelectQuestion={(q) => { setActiveQuestion(q); navigateTo('bank_detail'); }} />;
       case 'bank_detail':
         return <BankDetail question={activeQuestion!} onBack={() => navigateTo('bank_list')} />;
       case 'profile':
@@ -88,7 +108,12 @@ const App: React.FC = () => {
   };
 
   const isQuizMode = currentScreen === 'quiz' || currentScreen === 'results';
-  const isNotebookActive = currentScreen.startsWith('notebook') || currentScreen.startsWith('bank');
+  
+  // 導覽列 Active 狀態判斷
+  const isPracticeActive = currentScreen === 'home' || currentScreen === 'mode_select' || currentScreen === 'quiz_setup';
+  const isBankActive = currentScreen.startsWith('bank');
+  const isNotebookActive = currentScreen === 'notebook_hub' || currentScreen === 'notebook_words' || currentScreen === 'notebook_wrong';
+  const isProfileActive = currentScreen === 'profile';
 
   return (
     <div className="flex flex-col h-screen max-w-md mx-auto bg-slate-50 relative shadow-2xl overflow-hidden">
@@ -100,23 +125,41 @@ const App: React.FC = () => {
         <nav className="absolute bottom-0 w-full bg-white border-t border-slate-200 flex py-3 z-50 shadow-inner">
           <button 
             onClick={() => navigateTo('home')}
-            className={`flex-1 flex flex-col items-center gap-1 transition-colors ${currentScreen === 'home' || currentScreen === 'mode_select' || currentScreen === 'quiz_setup' ? 'text-indigo-600' : 'text-slate-400'}`}
+            className={`flex-1 flex flex-col items-center gap-1 transition-colors ${isPracticeActive ? 'text-indigo-600' : 'text-slate-400'}`}
           >
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
-            <span className="text-[10px] font-bold">題目</span>
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 2c-3.31 0-6 2.69-6 6v2H5c-1.1 0-2 .9-2 2v6c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2v-6c0-1.1-.9-2-2-2h-1V8c0-3.31-2.69-6-6-6zm4 8H8V8c0-2.21 1.79-4 4-4s4 1.79 4 4v2z" />
+            </svg>
+            <span className="text-[10px] font-bold">練習</span>
           </button>
+
+          <button 
+            onClick={() => navigateTo('bank_hub')}
+            className={`flex-1 flex flex-col items-center gap-1 transition-colors ${isBankActive ? 'text-indigo-600' : 'text-slate-400'}`}
+          >
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+            </svg>
+            <span className="text-[10px] font-bold">題庫</span>
+          </button>
+
           <button 
             onClick={() => navigateTo('notebook_hub')}
             className={`flex-1 flex flex-col items-center gap-1 transition-colors ${isNotebookActive ? 'text-indigo-600' : 'text-slate-400'}`}
           >
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+            </svg>
             <span className="text-[10px] font-bold">筆記本</span>
           </button>
+
           <button 
             onClick={() => navigateTo('profile')}
-            className={`flex-1 flex flex-col items-center gap-1 transition-colors ${currentScreen === 'profile' ? 'text-indigo-600' : 'text-slate-400'}`}
+            className={`flex-1 flex flex-col items-center gap-1 transition-colors ${isProfileActive ? 'text-indigo-600' : 'text-slate-400'}`}
           >
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+            </svg>
             <span className="text-[10px] font-bold">個人檔案</span>
           </button>
         </nav>

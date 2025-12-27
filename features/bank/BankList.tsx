@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { localDb } from '../../db/localDb';
 import { ExamLevel, Category, Question } from '../../types';
+import { parseUnderline } from '../../App';
 
 const BankList: React.FC<{ level: ExamLevel; category: Category; onBack: () => void; onSelectQuestion: (q: Question) => void }> = ({ level, category, onBack, onSelectQuestion }) => {
   const [bank] = useState(localDb.getBank(level, category));
@@ -74,7 +75,7 @@ const BankList: React.FC<{ level: ExamLevel; category: Category; onBack: () => v
             </div>
             <div className="flex-1 overflow-hidden">
               <p className="japanese text-sm font-bold text-slate-700 leading-relaxed line-clamp-2">
-                {q.stem.replace(/\[\[u\]\]/g, '').replace(/\[\[\/u\]\]/g, '')}
+                {parseUnderline(q.stem)}
               </p>
               <div className="flex items-center gap-2 mt-2">
                 <span className="text-[9px] font-black text-slate-300 uppercase tracking-widest">{q.itemType}</span>

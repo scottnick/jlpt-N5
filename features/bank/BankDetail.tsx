@@ -2,21 +2,7 @@
 import React, { useState } from 'react';
 import { Question, WrongQuestion } from '../../types';
 import { localDb } from '../../db/localDb';
-
-const parseQuestionText = (text: string) => {
-  const parts = text.split(/(\[\[u\]\].*?\[\[\/u\]\])/g);
-  return parts.map((part, i) => {
-    const match = part.match(/\[\[u\]\](.*?)\[\[\/u\]\]/);
-    if (match) {
-      return (
-        <span key={i} className="underline decoration-indigo-300 decoration-2 underline-offset-4 px-0.5 font-bold">
-          {match[1]}
-        </span>
-      );
-    }
-    return part;
-  });
-};
+import { parseUnderline } from '../../App';
 
 const BankDetail: React.FC<{ question: Question; onBack: () => void }> = ({ question, onBack }) => {
   const [showExplanation, setShowExplanation] = useState(false);
@@ -63,9 +49,9 @@ const BankDetail: React.FC<{ question: Question; onBack: () => void }> = ({ ques
             </span>
           </div>
           
-          <div className="text-slate-400 text-sm mb-4">{question.instruction}</div>
+          <div className="text-slate-400 text-sm mb-4">{parseUnderline(question.instruction)}</div>
           <div className="text-2xl font-bold text-slate-800 leading-relaxed japanese mb-10">
-            {parseQuestionText(question.stem)}
+            {parseUnderline(question.stem)}
           </div>
 
           <div className="space-y-3">

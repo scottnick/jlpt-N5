@@ -1,0 +1,113 @@
+
+import React, { useState, useEffect } from 'react';
+import { localDb } from '../../db/localDb';
+import { ExamLevel, Category, QuestionBank } from '../../types';
+import { generateBankBatch } from '../../services/gemini';
+
+const CATEGORIES: { id: Category; label: string }[] = [
+  { id: 'vocabulary', label: '文字語彙' },
+  { id: 'grammar', label: '文法' },
+  { id: 'reading', label: '讀解' }
+];
+
+interface BankCategoriesProps {
+  level: ExamLevel;
+  onBack: () => void;
+  onSelectCategory: (c: Category) => void;
+}
+
+const BankCategories: React.FC<BankCategoriesProps> = ({ level, onBack, onSelectCategory }) => {
+  const [loadingMap, setLoadingMap] = useState<Record<string, boolean>>({});
+  const [banks, setBanks] = useState<Record<string, QuestionBank | null>>({});
+
+  useEffect(() => {
+    refreshBanks();
+  }, [level]);
+
+  const refreshBanks = () => {
+    const data: any = {};
+    CATEGORIES.forEach(c => {
+      data[c.id] = localDb.getBank(level, c.id);
+    });
+    setBanks(data);
+  };
+
+  const handleGenerate = async (category: Category) => {
+    setLoadingMap(prev => ({ ...prev, [category]: true }));
+    try {
+      const itemTypes = ['kanji_reading', 'orthography', 'context_expression']; 
+      const questions = await generateBankBatch(level, category, 20, itemTypes);
+      localDb.saveBank({
+        level,
+        category,
+        updatedAt: new Date().toISOString(),
+        questions
+      });
+      refreshBanks();
+    } catch (e) {
+      alert("生成失敗，請稍後再試");
+    } finally {
+      setLoadingMap(prev => ({ ...prev, [category]: false }));
+    }
+  };
+
+  return (
+    <div className="p-6">
+      <div className="flex items-center gap-4 mb-8">
+        <button onClick={onBack} className="p-2 -ml-2 text-slate-400">
+          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7"></path></svg>
+        </button>
+        <h2 className="text-xl font-bold text-slate-800">JLPT {level} 題庫</h2>
+      </div>
+
+      <div className="grid grid-cols-1 gap-4">
+        {CATEGORIES.map(cat => {
+          const bank = banks[cat.id];
+          const isLoading = loadingMap[cat.id];
+          const isBuiltIn = level === 'N5' && cat.id === 'vocabulary';
+
+          return (
+            <div key={cat.id} className="bg-white p-6 rounded-[32px] border border-slate-100 shadow-sm flex flex-col gap-4 animate-fade-in">
+              <div>
+                <div className="flex items-center gap-2">
+                  <h4 className="font-bold text-slate-800 text-lg">{cat.label}</h4>
+                  {isBuiltIn && (
+                    <span className="text-[9px] bg-emerald-100 text-emerald-600 px-1.5 py-0.5 rounded-full font-black uppercase">Built-in</span>
+                  )}
+                </div>
+                {bank ? (
+                  <p className="text-xs text-slate-400 mt-1">共 {bank.questions.length} 題 • {isBuiltIn ? '系統內建' : `更新於 ${new Date(bank.updatedAt).toLocaleDateString()}`}</p>
+                ) : (
+                  <p className="text-xs text-slate-400 mt-1 italic">尚未生成題庫</p>
+                )}
+              </div>
+
+              <div className="flex gap-2">
+                {bank ? (
+                  <button 
+                    onClick={() => onSelectCategory(cat.id)}
+                    className="flex-1 py-3 bg-indigo-600 text-white rounded-2xl font-bold text-sm shadow-md active:scale-95 transition-all"
+                  >
+                    進入題庫
+                  </button>
+                ) : null}
+                
+                {!isBuiltIn && (
+                  <button 
+                    disabled={isLoading}
+                    onClick={() => handleGenerate(cat.id)}
+                    className={`flex-1 py-3 border-2 rounded-2xl font-bold text-sm transition-all ${isLoading ? 'bg-slate-50 text-slate-300 border-slate-100' : 'bg-white text-indigo-600 border-indigo-50 hover:bg-indigo-50'}`}
+                  >
+                    {isLoading ? '生成中...' : bank ? '更新題庫' : '立即生成'}
+                  </button>
+                )}
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+};
+
+export default BankCategories;
