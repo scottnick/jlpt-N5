@@ -3,6 +3,22 @@ import React, { useState } from 'react';
 import { localDb } from '../../db/localDb';
 import { WrongQuestion, ExamLevel } from '../../types';
 
+const parseQuestionText = (text: string, isPreview: boolean = false) => {
+  const parts = text.split(/(\[\[u\]\].*?\[\[\/u\]\])/g);
+  return parts.map((part, i) => {
+    const match = part.match(/\[\[u\]\](.*?)\[\[\/u\]\]/);
+    if (match) {
+      if (isPreview) return match[1];
+      return (
+        <span key={i} className="underline decoration-white/50 decoration-1 underline-offset-4 px-0.5">
+          {match[1]}
+        </span>
+      );
+    }
+    return part;
+  });
+};
+
 const WrongBook: React.FC<{ onBack: () => void }> = ({ onBack }) => {
   const [items, setItems] = useState(localDb.getWrongQuestions());
   const [filter, setFilter] = useState<ExamLevel | 'All'>('All');
@@ -43,7 +59,9 @@ const WrongBook: React.FC<{ onBack: () => void }> = ({ onBack }) => {
                       {item.level}
                   </div>
                   <div className="flex-1 overflow-hidden">
-                      <p className="japanese text-sm font-bold text-slate-700 truncate">{item.question.stem}</p>
+                      <p className="japanese text-sm font-bold text-slate-700 truncate">
+                        {parseQuestionText(item.question.stem, true)}
+                      </p>
                       <p className="text-[10px] text-slate-400 mt-1 uppercase tracking-wider">{item.question.itemType || item.category} • {new Date(item.timestamp).toLocaleDateString()}</p>
                   </div>
               </button>
@@ -67,7 +85,9 @@ const WrongBook: React.FC<{ onBack: () => void }> = ({ onBack }) => {
                               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path></svg>
                           </button>
                       </div>
-                      <p className="japanese text-xl font-bold leading-relaxed">{selected.question.stem}</p>
+                      <p className="japanese text-xl font-bold leading-relaxed">
+                        {parseQuestionText(selected.question.stem)}
+                      </p>
                   </div>
                   <div className="p-6 overflow-y-auto flex-1">
                       <div className="space-y-3 mb-8">

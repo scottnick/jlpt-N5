@@ -9,6 +9,21 @@ interface ResultsProps {
   onFinish: (correctCount: number) => void;
 }
 
+const parseQuestionText = (text: string) => {
+  const parts = text.split(/(\[\[u\]\].*?\[\[\/u\]\])/g);
+  return parts.map((part, i) => {
+    const match = part.match(/\[\[u\]\](.*?)\[\[\/u\]\]/);
+    if (match) {
+      return (
+        <span key={i} className="underline decoration-slate-400 decoration-1 underline-offset-4 px-0.5">
+          {match[1]}
+        </span>
+      );
+    }
+    return part;
+  });
+};
+
 const Results: React.FC<ResultsProps> = ({ session, results, onFinish }) => {
   const [notebook, setNotebook] = useState(localDb.getNotebook());
   const correctCount = session.questions.filter(q => results.answers[q.id] === (q.answerIndex + 1).toString()).length;
@@ -57,7 +72,9 @@ const Results: React.FC<ResultsProps> = ({ session, results, onFinish }) => {
                         {isCorrect ? '正確' : '錯誤'}
                     </span>
                 </div>
-                <div className="text-lg font-bold text-slate-800 japanese mb-4 leading-relaxed">{q.stem}</div>
+                <div className="text-lg font-bold text-slate-800 japanese mb-4 leading-relaxed">
+                  {parseQuestionText(q.stem)}
+                </div>
                 
                 <div className="space-y-2 mb-6">
                     {q.choices.map((c, cIdx) => {

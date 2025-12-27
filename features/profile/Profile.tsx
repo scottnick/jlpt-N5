@@ -22,11 +22,11 @@ const Profile: React.FC<ProfileProps> = ({ dailyGoal }) => {
     { id: 'Conversational', name: '日常對話', tag: '日常' }
   ];
 
-  const getAccColor = (acc: number) => {
-    if (acc >= 80) return '#10b981'; // Emerald (綠)
-    if (acc >= 60) return '#3b82f6'; // Blue (藍)
-    if (acc >= 40) return '#f59e0b'; // Amber (黃橘)
-    return '#ef4444'; // Red (紅)
+  const getStatusColor = (acc: number) => {
+    if (acc >= 90) return { stroke: 'text-emerald-500', text: 'text-emerald-600', bg: 'bg-emerald-50' };
+    if (acc >= 70) return { stroke: 'text-blue-500', text: 'text-blue-600', bg: 'bg-blue-50' };
+    if (acc >= 40) return { stroke: 'text-amber-500', text: 'text-amber-600', bg: 'bg-amber-50' };
+    return { stroke: 'text-rose-500', text: 'text-rose-600', bg: 'bg-rose-50' };
   };
 
   return (
@@ -42,22 +42,22 @@ const Profile: React.FC<ProfileProps> = ({ dailyGoal }) => {
             </div>
         </div>
 
-        {/* 優化後的總體表現卡片 */}
-        <div className="bg-white rounded-[32px] p-6 shadow-sm border border-slate-100 flex items-center gap-6 mb-8">
-            <div className="w-16 h-16 rounded-3xl bg-indigo-50 flex items-center justify-center text-indigo-600 flex-shrink-0">
-                <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
+        {/* 優化後的總體表現區域 */}
+        <div className="mb-8">
+            <div className="flex items-center gap-2 px-1 mb-3">
+                <svg className="w-5 h-5 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
                 </svg>
+                <h3 className="text-sm font-black text-slate-400 uppercase tracking-widest">總體表現</h3>
             </div>
-            <div className="w-[1px] h-12 bg-slate-100"></div>
-            <div className="flex flex-1 justify-around">
-                <div className="text-center">
-                    <div className="text-[10px] font-black text-slate-300 uppercase tracking-widest mb-1">總做題數</div>
-                    <div className="text-2xl font-black text-slate-800 tracking-tight">{stats.totalQuestions}</div>
+            <div className="bg-white rounded-[32px] p-6 shadow-sm border border-slate-100 flex items-center divide-x divide-slate-100">
+                <div className="flex-1 text-center">
+                    <div className="text-[11px] font-medium text-slate-500 mb-1">總做題數</div>
+                    <div className="text-2xl font-bold text-slate-800 tracking-tight">{stats.totalQuestions}</div>
                 </div>
-                <div className="text-center">
-                    <div className="text-[10px] font-black text-slate-300 uppercase tracking-widest mb-1">總答對率</div>
-                    <div className="text-2xl font-black text-indigo-600 tracking-tight">{totalAccuracy}%</div>
+                <div className="flex-1 text-center">
+                    <div className="text-[11px] font-medium text-slate-500 mb-1">總答對率</div>
+                    <div className="text-2xl font-bold text-indigo-600 tracking-tight">{totalAccuracy}%</div>
                 </div>
             </div>
         </div>
@@ -69,7 +69,7 @@ const Profile: React.FC<ProfileProps> = ({ dailyGoal }) => {
                 const acc = s.doneCount > 0 ? Math.round((s.correctCount / s.doneCount) * 100) : 0;
                 const avg = s.doneCount > 0 ? Math.round(s.totalTimeSeconds / s.doneCount) : 0;
                 const isExpanded = expandedLevel === lvl.id;
-                const color = getAccColor(acc);
+                const colors = getStatusColor(acc);
 
                 return (
                     <div key={lvl.id} className="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden transition-all">
@@ -84,8 +84,10 @@ const Profile: React.FC<ProfileProps> = ({ dailyGoal }) => {
                                 <span className="font-bold text-slate-700">{lvl.name}</span>
                             </div>
                             <div className="flex items-center gap-4">
-                                <div className="text-right">
-                                    <span className="text-[10px] font-black text-indigo-600 bg-indigo-50 px-2 py-0.5 rounded-full block leading-none mb-1">已做 {s.doneCount}</span>
+                                {/* 優化：右上角精簡顯示已做題數 */}
+                                <div className="flex items-center gap-1.5 mr-1">
+                                    <span className="text-[10px] font-medium text-slate-400">已做</span>
+                                    <span className="text-lg font-medium text-slate-800 tracking-tight">{s.doneCount}</span>
                                 </div>
                                 <svg className={`w-5 h-5 text-slate-300 transition-transform ${isExpanded ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path></svg>
                             </div>
@@ -95,26 +97,47 @@ const Profile: React.FC<ProfileProps> = ({ dailyGoal }) => {
                             <div className="px-5 pb-5 animate-fade-in flex items-center justify-between border-t border-slate-50 pt-5">
                                 <div className="space-y-4 flex-1">
                                     <div className="bg-slate-50 p-3 rounded-xl border border-slate-100">
-                                        <div className="text-[9px] font-black text-slate-400 uppercase tracking-widest">正確題數</div>
-                                        <div className="font-bold text-slate-700">{s.correctCount} <span className="text-xs font-normal text-slate-400">/ {s.doneCount}</span></div>
+                                        <div className="text-[10px] font-medium text-slate-500 uppercase tracking-widest mb-0.5">正確題數</div>
+                                        <div className="text-lg font-medium text-slate-800 tracking-tight">
+                                            {s.correctCount} <span className="text-xs font-normal text-slate-400">/ {s.doneCount}</span>
+                                        </div>
                                     </div>
                                     <div className="bg-slate-50 p-3 rounded-xl border border-slate-100">
-                                        <div className="text-[9px] font-black text-slate-400 uppercase tracking-widest">平均作答</div>
-                                        <div className="font-bold text-slate-700">{avg} <span className="text-xs font-normal text-slate-400">秒/題</span></div>
+                                        <div className="text-[10px] font-medium text-slate-500 uppercase tracking-widest mb-0.5">平均作答</div>
+                                        <div className="text-lg font-medium text-slate-800 tracking-tight">
+                                            {avg} <span className="text-xs font-normal text-slate-400">秒/題</span>
+                                        </div>
                                     </div>
                                 </div>
                                 
                                 <div className="flex flex-col items-center justify-center pl-6 animate-grow-in">
-                                    <div 
-                                        className="relative w-24 h-24 rounded-full flex items-center justify-center shadow-sm"
-                                        style={{
-                                            background: `conic-gradient(${color} ${acc * 3.6}deg, #f1f5f9 0deg)`
-                                        }}
-                                    >
-                                        <div className="absolute inset-[10px] bg-white rounded-full flex flex-col items-center justify-center shadow-inner">
-                                            <span className="text-xl font-black text-slate-800 leading-none">{acc}%</span>
+                                    <div className="relative w-24 h-24 flex items-center justify-center">
+                                        <svg viewBox="0 0 36 36" className="w-24 h-24 transform -rotate-90 overflow-visible">
+                                            <circle
+                                                cx="18"
+                                                cy="18"
+                                                r="15.915"
+                                                fill="none"
+                                                stroke="#f1f5f9"
+                                                strokeWidth="3.2"
+                                            />
+                                            <circle
+                                                cx="18"
+                                                cy="18"
+                                                r="15.915"
+                                                fill="none"
+                                                stroke="currentColor"
+                                                className={`${colors.stroke} transition-all duration-700 ease-out`}
+                                                strokeWidth="3.2"
+                                                strokeDasharray={`${acc} 100`}
+                                                strokeLinecap="round"
+                                            />
+                                        </svg>
+                                        <div className="absolute inset-0 flex flex-col items-center justify-center">
+                                            <span className={`text-xl font-black leading-none ${colors.text}`}>{acc}%</span>
                                         </div>
                                     </div>
+                                    <div className="text-[10px] font-medium text-slate-400 mt-2">正確率</div>
                                 </div>
                             </div>
                         )}
