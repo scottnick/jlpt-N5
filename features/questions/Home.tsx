@@ -31,7 +31,7 @@ const Home: React.FC<HomeProps> = ({ onSelectLevel, dailyGoal }) => {
         </div>
       </div>
 
-      {/* Category Cards */}
+      {/* Category Cards - N4 first, N5 second */}
       <div className="px-6 -mt-8 space-y-4 pb-8">
         <LevelCard 
           title="JLPT N4" 

@@ -23,22 +23,6 @@ const BankHub: React.FC<BankHubProps> = ({ onBack, onSelectLevel }) => {
 
       <div className="grid grid-cols-1 gap-4">
         <button 
-          onClick={() => onSelectLevel('N5')}
-          className="group relative bg-white p-6 rounded-[32px] border border-slate-100 shadow-sm flex items-center gap-5 active:scale-[0.98] transition-all hover:shadow-md"
-        >
-          <div className="w-14 h-14 bg-indigo-50 text-indigo-600 rounded-2xl flex items-center justify-center transition-colors group-hover:bg-indigo-600 group-hover:text-white">
-            <span className="text-xl font-black">N5</span>
-          </div>
-          <div className="text-left">
-            <h3 className="text-lg font-bold text-slate-800">JLPT N5 題庫</h3>
-            <p className="text-sm text-slate-400">包含 120 題內建精選練習題</p>
-          </div>
-          <div className="ml-auto text-slate-200">
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7"></path></svg>
-          </div>
-        </button>
-
-        <button 
           onClick={() => onSelectLevel('N4')}
           className="group relative bg-white p-6 rounded-[32px] border border-slate-100 shadow-sm flex items-center gap-5 active:scale-[0.98] transition-all hover:shadow-md"
         >
@@ -48,6 +32,22 @@ const BankHub: React.FC<BankHubProps> = ({ onBack, onSelectLevel }) => {
           <div className="text-left">
             <h3 className="text-lg font-bold text-slate-800">JLPT N4 題庫</h3>
             <p className="text-sm text-slate-400">掌握中級詞彙與文法應用</p>
+          </div>
+          <div className="ml-auto text-slate-200">
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7"></path></svg>
+          </div>
+        </button>
+
+        <button 
+          onClick={() => onSelectLevel('N5')}
+          className="group relative bg-white p-6 rounded-[32px] border border-slate-100 shadow-sm flex items-center gap-5 active:scale-[0.98] transition-all hover:shadow-md"
+        >
+          <div className="w-14 h-14 bg-indigo-50 text-indigo-600 rounded-2xl flex items-center justify-center transition-colors group-hover:bg-indigo-600 group-hover:text-white">
+            <span className="text-xl font-black">N5</span>
+          </div>
+          <div className="text-left">
+            <h3 className="text-lg font-bold text-slate-800">JLPT N5 題庫</h3>
+            <p className="text-sm text-slate-400">包含 120 題內建精選練習題</p>
           </div>
           <div className="ml-auto text-slate-200">
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7"></path></svg>

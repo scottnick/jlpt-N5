@@ -74,9 +74,9 @@ const QuizSessionUI: React.FC<QuizSessionUIProps> = ({ session, onComplete, onCa
                 {currentQuestion.itemType || currentQuestion.subtype}
             </span>
         </div>
-        <div className="text-slate-500 text-sm mb-4">{parseUnderline(currentQuestion.instruction)}</div>
+        <div className="text-slate-500 text-sm mb-4">{parseUnderline(currentQuestion.instruction, 'instruction')}</div>
         <div className="text-2xl font-bold text-slate-800 mb-8 japanese leading-relaxed">
-          {parseUnderline(currentQuestion.stem)}
+          {parseUnderline(currentQuestion.stem, 'stem')}
         </div>
 
         <div className="space-y-4">

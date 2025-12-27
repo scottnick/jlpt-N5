@@ -49,9 +49,9 @@ const BankDetail: React.FC<{ question: Question; onBack: () => void }> = ({ ques
             </span>
           </div>
           
-          <div className="text-slate-400 text-sm mb-4">{parseUnderline(question.instruction)}</div>
+          <div className="text-slate-400 text-sm mb-4">{parseUnderline(question.instruction, 'instruction')}</div>
           <div className="text-2xl font-bold text-slate-800 leading-relaxed japanese mb-10">
-            {parseUnderline(question.stem)}
+            {parseUnderline(question.stem, 'stem')}
           </div>
 
           <div className="space-y-3">

@@ -18,15 +18,21 @@ import { generateQuiz } from './services/gemini';
 
 type AppScreen = 'home' | 'mode_select' | 'quiz_setup' | 'quiz' | 'results' | 'notebook_hub' | 'notebook_words' | 'notebook_wrong' | 'profile' | 'bank_hub' | 'bank_categories' | 'bank_list' | 'bank_detail';
 
-// 全域底線解析函數
-export const parseUnderline = (text: string) => {
+// 全域底線解析函數 - 支援情境樣式
+export const parseUnderline = (text: string, type: 'instruction' | 'stem' = 'stem') => {
   if (!text) return "";
   const parts = text.split(/(\[\[u\]\].*?\[\[\/u\]\])/g);
+  
+  // 根據位置套用樣式
+  const underlineClass = type === 'instruction' 
+    ? "underline decoration-slate-300 decoration-1 underline-offset-4" 
+    : "underline decoration-indigo-500 decoration-[3px] underline-offset-4 font-bold";
+
   return parts.map((part, i) => {
     const match = part.match(/\[\[u\]\](.*?)\[\[\/u\]\]/);
     if (match) {
       return (
-        <span key={i} className="underline decoration-slate-400 decoration-1 underline-offset-4 font-bold">
+        <span key={i} className={underlineClass}>
           {match[1]}
         </span>
       );
